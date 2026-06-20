@@ -115,7 +115,7 @@ const AiAdvisorPage = () => {
               </div>
               <h3 className="text-xl font-bold text-white mb-2">AI Portfolio Advisor</h3>
               <p className="text-sm text-surface-400 max-w-md mb-6">
-                Get personalized portfolio analysis, risk assessment, diversification recommendations,
+                Get personalized portfolio analysis, risk assessment, diversification recommendations, 
                 and rebalancing suggestions powered by Google Gemini AI.
               </p>
               <button onClick={fetchInsights} className="btn-primary">

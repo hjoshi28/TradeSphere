@@ -106,8 +106,8 @@ const WatchlistPage = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="card p-5">
               <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Worst Performer</span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-2xl font-bold text-white">{sorted[sorted.length - 1]?.symbol || '—'}</span>
-                {sorted[sorted.length - 1] && <Badge variant="loss" size="xs">{sorted[sorted.length - 1].percentChange?.toFixed(2)}%</Badge>}
+                <span className="text-2xl font-bold text-white">{sorted[sorted.length-1]?.symbol || '—'}</span>
+                {sorted[sorted.length-1] && <Badge variant="loss" size="xs">{sorted[sorted.length-1].percentChange?.toFixed(2)}%</Badge>}
               </div>
             </motion.div>
           </div>

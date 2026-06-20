@@ -43,9 +43,10 @@ const Sidebar = ({ isOpen, onClose }) => {
   };
 
   const linkClasses = ({ isActive }) =>
-    `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${isActive
-      ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
-      : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 border border-transparent'
+    `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+      isActive
+        ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
+        : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 border border-transparent'
     }`;
 
   const SidebarContent = () => (
@@ -53,7 +54,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Brand */}
       <div className="px-5 py-6 flex items-center justify-between">
         <NavLink to="/dashboard" className="flex items-center gap-2.5" onClick={onClose}>
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center shadow-lg shadow-violet-600/25">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/20">
             <span className="text-sm font-black text-white">T</span>
           </div>
           <span className="text-lg font-bold text-white tracking-tight">TradeSphere</span>
@@ -89,7 +90,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* User section */}
       <div className="p-3 border-t border-surface-800/60">
         <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-surface-800/30">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
             {(user?.name || 'U')[0].toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">

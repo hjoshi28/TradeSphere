@@ -72,7 +72,7 @@ const Signup = () => {
       >
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center shadow-lg shadow-violet-600/25">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
               <span className="text-lg font-black text-white">T</span>
             </div>
             <span className="text-2xl font-bold text-white">TradeSphere</span>
@@ -115,7 +115,7 @@ const Signup = () => {
             {password && (
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex-1 flex gap-1">
-                  {[1, 2, 3].map(i => (
+                  {[1,2,3].map(i => (
                     <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength.level ? strength.color : 'bg-surface-800'}`} />
                   ))}
                 </div>

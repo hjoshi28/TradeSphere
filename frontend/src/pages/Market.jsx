@@ -21,7 +21,7 @@ const Market = () => {
         if (t.status === 'fulfilled') setTrending(t.value.data);
         if (m.status === 'fulfilled') setMovers(m.value.data);
         if (n.status === 'fulfilled') setNews(n.value.data?.slice(0, 8) || []);
-      } catch { } finally { setLoading(false); }
+      } catch {} finally { setLoading(false); }
     };
     fetchData();
   }, []);
@@ -96,10 +96,10 @@ const Market = () => {
             <HiOutlineArrowTrendingUp className="w-4 h-4 text-gain" />
             <h2 className="text-sm font-bold text-surface-200">Top Gainers</h2>
           </div>
-          <div className="divide-y divide-gray-100 divide-surface-800/40">
+          <div className="divide-y divide-surface-800/40">
             {(movers.gainers || []).map((s, i) => (
               <Link key={i} to={`/market/${s.symbol}`}
-                className="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                className="flex items-center justify-between px-5 py-3.5 hover:bg-surface-800/20 transition-colors">
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-white font-mono text-sm">{s.symbol}</span>
                 </div>
@@ -122,10 +122,10 @@ const Market = () => {
             <HiOutlineArrowTrendingDown className="w-4 h-4 text-loss" />
             <h2 className="text-sm font-bold text-surface-200">Top Losers</h2>
           </div>
-          <div className="divide-y divide-gray-100 divide-surface-800/40">
+          <div className="divide-y divide-surface-800/40">
             {(movers.losers || []).map((s, i) => (
               <Link key={i} to={`/market/${s.symbol}`}
-                className="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                className="flex items-center justify-between px-5 py-3.5 hover:bg-surface-800/20 transition-colors">
                 <div className="flex items-center gap-3">
                   <span className="font-bold text-white font-mono text-sm">{s.symbol}</span>
                 </div>

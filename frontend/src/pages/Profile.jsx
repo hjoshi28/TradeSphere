@@ -20,7 +20,7 @@ const Profile = () => {
         const buys = tx.data.filter(t => t.type === 'BUY').length;
         const sells = tx.data.filter(t => t.type === 'SELL').length;
         setStats({ trades: tx.data.length, holdings: h.data.length, buys, sells });
-      } catch { }
+      } catch {}
     };
     fetchStats();
   }, []);
@@ -52,7 +52,7 @@ const Profile = () => {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
         className="card p-8">
         <div className="flex flex-col sm:flex-row items-center gap-6">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center text-white text-4xl font-bold shadow-xl shadow-violet-600/25 flex-shrink-0">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-4xl font-bold shadow-xl shadow-brand-500/20 flex-shrink-0">
             {(user?.name || 'U')[0].toUpperCase()}
           </div>
           <div className="flex-1 text-center sm:text-left">
@@ -113,7 +113,7 @@ const Profile = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between py-3 border-b border-surface-800/40">
             <span className="text-sm text-surface-400">Cash Balance</span>
-            <span className="text-sm font-bold font-mono text-white">${(user?.balance || 100000).toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            <span className="text-sm font-bold font-mono text-white">${(user?.balance || 100000).toLocaleString(undefined,{minimumFractionDigits:2})}</span>
           </div>
           <div className="flex items-center justify-between py-3 border-b border-surface-800/40">
             <span className="text-sm text-surface-400">Account Type</span>

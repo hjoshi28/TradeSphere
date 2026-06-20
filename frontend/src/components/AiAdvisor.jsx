@@ -24,8 +24,8 @@ const AiAdvisor = () => {
           <h2 className="text-base font-bold tracking-tight text-zinc-200">AI Risk Assessment Hub</h2>
           <p className="text-xs text-zinc-500 font-mono">Automated prompt engineering module parsing live portfolio structure loops</p>
         </div>
-        <button
-          onClick={fetchInsights}
+        <button 
+          onClick={fetchInsights} 
           disabled={loading}
           className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-5 py-2 rounded-lg transition-colors disabled:opacity-40 shadow-sm cursor-pointer"
         >

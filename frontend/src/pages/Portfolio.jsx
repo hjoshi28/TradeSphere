@@ -73,16 +73,16 @@ const Portfolio = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Invested</span>
-          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.totalInvestment?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.totalInvestment?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Current Value</span>
-          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Net P/L</span>
           <p className={`text-2xl font-bold font-mono mt-1 ${analytics?.netGainLoss >= 0 ? 'text-gain' : 'text-loss'}`}>
-            {analytics?.netGainLoss >= 0 ? '+' : '-'}${Math.abs(analytics?.netGainLoss || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {analytics?.netGainLoss >= 0 ? '+' : '-'}${Math.abs(analytics?.netGainLoss || 0).toLocaleString(undefined, {minimumFractionDigits:2})}
           </p>
         </motion.div>
       </div>
@@ -107,15 +107,15 @@ const Portfolio = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase text-center">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+              <tbody className="divide-y divide-surface-800/40">
                 {holdings.map(h => (
-                  <tr key={h._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                  <tr key={h._id} className="hover:bg-surface-800/20 transition-colors">
                     <td className="px-5 py-3.5">
                       <Link to={`/market/${h.symbol}`} className="font-bold text-white hover:text-brand-400 font-mono">{h.symbol}</Link>
                     </td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">{h.quantity.toLocaleString()}</td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">${h.avgPrice.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-white font-semibold">${(h.quantity * h.avgPrice).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-white font-semibold">${(h.quantity * h.avgPrice).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
                     <td className="px-5 py-3.5"><Badge variant="brand" size="xs">{h.sector}</Badge></td>
                     <td className="px-5 py-3.5 text-center">
                       <Link to={`/trade?symbol=${h.symbol}`} className="text-xs text-brand-400 hover:text-brand-300 font-semibold">Trade</Link>

@@ -33,7 +33,7 @@ const Landing = () => {
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-5">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center shadow-lg shadow-violet-600/25">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
             <span className="text-base font-black text-white">T</span>
           </div>
           <span className="text-xl font-bold text-white tracking-tight">TradeSphere</span>
@@ -69,12 +69,12 @@ const Landing = () => {
             </h1>
 
             <p className="text-lg sm:text-xl text-surface-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Practice stock trading with $100,000 in virtual funds, real-time market data,
+              Practice stock trading with $100,000 in virtual funds, real-time market data, 
               and AI-powered portfolio insights. Build your strategy risk-free.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/signup" className="btn-primary text-base px-8 py-3.5 shadow-xl shadow-violet-600/25">
+              <Link to="/signup" className="btn-primary text-base px-8 py-3.5 shadow-xl shadow-brand-500/20">
                 Start Trading Free
                 <HiArrowRight className="w-4 h-4" />
               </Link>
@@ -142,11 +142,11 @@ const Landing = () => {
       {/* CTA */}
       <section className="px-6 sm:px-10 lg:px-16 py-20">
         <div className="max-w-3xl mx-auto text-center glass rounded-3xl p-12 sm:p-16 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent pointer-events-none" />
           <div className="relative">
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to Start Trading?</h2>
             <p className="text-surface-400 text-lg mb-8 max-w-md mx-auto">Join TradeSphere and practice with real market data and AI-powered insights.</p>
-            <Link to="/signup" className="btn-primary text-base px-10 py-3.5 shadow-xl shadow-violet-600/25">
+            <Link to="/signup" className="btn-primary text-base px-10 py-3.5 shadow-xl shadow-brand-500/20">
               Create Free Account
               <HiArrowRight className="w-4 h-4" />
             </Link>
@@ -158,7 +158,7 @@ const Landing = () => {
       <footer className="px-6 sm:px-10 lg:px-16 py-8 border-t border-surface-800/40">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center">
+            <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
               <span className="text-[10px] font-black text-white">T</span>
             </div>
             <span className="text-sm font-semibold text-surface-400">TradeSphere</span>

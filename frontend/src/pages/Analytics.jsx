@@ -25,7 +25,7 @@ const Analytics = () => {
         setAnalytics(a.data);
         setHoldings(h.data);
         setTransactions(t.data);
-      } catch { } finally { setLoading(false); }
+      } catch {} finally { setLoading(false); }
     };
     fetchData();
   }, []);
@@ -67,12 +67,12 @@ const Analytics = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Portfolio Value</span>
-          <p className="text-xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="text-xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined,{minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Net P/L</span>
           <p className={`text-xl font-bold font-mono mt-1 ${analytics?.netGainLoss >= 0 ? 'text-gain' : 'text-loss'}`}>
-            {analytics?.netGainLoss >= 0 ? '+' : '-'}${Math.abs(analytics?.netGainLoss || 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            {analytics?.netGainLoss >= 0 ? '+' : '-'}${Math.abs(analytics?.netGainLoss || 0).toLocaleString(undefined,{minimumFractionDigits:2})}
           </p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-5">
@@ -168,9 +168,10 @@ const Analytics = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="card p-5">
           <h2 className="text-sm font-bold text-surface-200 mb-4">Risk Assessment</h2>
           <div className="flex items-center gap-6 mb-6">
-            <div className={`w-24 h-24 rounded-full border-4 flex items-center justify-center text-2xl font-black ${analytics?.healthScore >= 70 ? 'text-gain border-gain' :
-                analytics?.healthScore >= 40 ? 'text-amber-400 border-amber-500' : 'text-loss border-loss'
-              }`}>
+            <div className={`w-24 h-24 rounded-full border-4 flex items-center justify-center text-2xl font-black ${
+              analytics?.healthScore >= 70 ? 'text-gain border-gain' :
+              analytics?.healthScore >= 40 ? 'text-amber-400 border-amber-500' : 'text-loss border-loss'
+            }`}>
               {analytics?.healthScore || 0}
             </div>
             <div>

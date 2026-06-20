@@ -33,7 +33,7 @@ const Transactions = () => {
   const totalBuys = transactions.filter(t => t.type === 'BUY').reduce((s, t) => s + t.totalAmount, 0);
   const totalSells = transactions.filter(t => t.type === 'SELL').reduce((s, t) => s + t.totalAmount, 0);
   const mostTraded = transactions.reduce((acc, t) => { acc[t.symbol] = (acc[t.symbol] || 0) + 1; return acc; }, {});
-  const topSymbol = Object.keys(mostTraded).sort((a, b) => mostTraded[b] - mostTraded[a])[0];
+  const topSymbol = Object.keys(mostTraded).sort((a,b) => mostTraded[b] - mostTraded[a])[0];
 
   if (loading) return <PageLoader text="Loading transactions..." />;
 
@@ -52,11 +52,11 @@ const Transactions = () => {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Buys</span>
-          <p className="text-2xl font-bold text-gain font-mono mt-1">${totalBuys.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="text-2xl font-bold text-gain font-mono mt-1">${totalBuys.toLocaleString(undefined,{minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Sells</span>
-          <p className="text-2xl font-bold text-loss font-mono mt-1">${totalSells.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+          <p className="text-2xl font-bold text-loss font-mono mt-1">${totalSells.toLocaleString(undefined,{minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Most Traded</span>
@@ -70,7 +70,7 @@ const Transactions = () => {
         <input type="text" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
           placeholder="Search by symbol..." className="input-base max-w-xs" />
         <div className="flex gap-2">
-          {['ALL', 'BUY', 'SELL'].map(f => (
+          {['ALL','BUY','SELL'].map(f => (
             <button key={f} onClick={() => setFilterType(f)}
               className={`btn text-xs ${filterType === f ? 'bg-brand-500/10 text-brand-400 border-brand-500/20' : 'bg-surface-800/50 text-surface-400 border-surface-700/30'} border`}>
               {f}
@@ -98,15 +98,15 @@ const Transactions = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase text-right">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+              <tbody className="divide-y divide-surface-800/40">
                 {filtered.map(t => (
-                  <tr key={t._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                  <tr key={t._id} className="hover:bg-surface-800/20 transition-colors">
                     <td className="px-5 py-3.5 text-xs text-surface-400 font-mono">{format(new Date(t.createdAt), 'MMM dd, yyyy HH:mm')}</td>
                     <td className="px-5 py-3.5"><Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge></td>
                     <td className="px-5 py-3.5 font-bold text-white font-mono">{t.symbol}</td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">{t.quantity}</td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">${t.price.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right font-mono font-semibold text-white">${t.totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-5 py-3.5 text-right font-mono font-semibold text-white">${t.totalAmount.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
                   </tr>
                 ))}
               </tbody>

@@ -83,7 +83,7 @@ const Dashboard = () => {
           value={analytics?.currentValue || 0}
           prefix="$"
           icon={HiOutlineBriefcase}
-          change={dailyPL >= 0 ? `+$${Math.abs(dailyPL).toLocaleString(undefined, { minimumFractionDigits: 2 })}` : `-$${Math.abs(dailyPL).toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          change={dailyPL >= 0 ? `+$${Math.abs(dailyPL).toLocaleString(undefined, {minimumFractionDigits:2})}` : `-$${Math.abs(dailyPL).toLocaleString(undefined, {minimumFractionDigits:2})}`}
           changeType={dailyPL >= 0 ? 'gain' : 'loss'}
           delay={0}
         />
@@ -136,9 +136,9 @@ const Dashboard = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider">Sector</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+              <tbody className="divide-y divide-surface-800/40">
                 {holdings.slice(0, 6).map((h) => (
-                  <tr key={h._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                  <tr key={h._id} className="hover:bg-surface-800/20 transition-colors">
                     <td className="px-5 py-3.5 font-bold text-white font-mono text-sm">{h.symbol}</td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">{h.quantity.toLocaleString()}</td>
                     <td className="px-5 py-3.5 text-right font-mono text-surface-300">${h.avgPrice.toFixed(2)}</td>

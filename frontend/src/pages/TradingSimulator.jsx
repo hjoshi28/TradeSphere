@@ -21,7 +21,7 @@ const TradingSimulator = () => {
   const [holdings, setHoldings] = useState([]);
 
   const fetchHistory = async () => {
-    try { const { data } = await getTransactions(); setTransactions(data); } catch { }
+    try { const { data } = await getTransactions(); setTransactions(data); } catch {}
   };
 
   const fetchLivePrice = async (symbol) => {
@@ -29,15 +29,15 @@ const TradingSimulator = () => {
       const { data } = await getLiveQuote(symbol);
       setLivePrice(data.price);
       setQuoteData(data);
-    } catch { }
+    } catch {}
   };
 
   const fetchWatchlist = async () => {
-    try { const { data } = await getWatchlist(); setWatchlist(data); } catch { }
+    try { const { data } = await getWatchlist(); setWatchlist(data); } catch {}
   };
 
   const fetchHoldings = async () => {
-    try { const { data } = await getHoldings(); setHoldings(data); } catch { }
+    try { const { data } = await getHoldings(); setHoldings(data); } catch {}
   };
 
   useEffect(() => {
@@ -52,12 +52,12 @@ const TradingSimulator = () => {
   const handleWatchlistSelect = (symbol) => setActiveSymbol(symbol);
 
   const inferSector = (symbol) => {
-    if (['AAPL', 'MSFT', 'NVDA', 'AMD', 'GOOGL', 'META', 'INTC'].includes(symbol)) return 'Technology';
-    if (['TSLA', 'F', 'GM'].includes(symbol)) return 'Automotive';
-    if (['AMZN', 'BABA', 'EBAY', 'SHOP'].includes(symbol)) return 'E-commerce';
-    if (['JPM', 'BAC', 'GS', 'V', 'MA'].includes(symbol)) return 'Financials';
-    if (['JNJ', 'PFE', 'UNH', 'MRNA'].includes(symbol)) return 'Healthcare';
-    if (['XOM', 'CVX', 'COP'].includes(symbol)) return 'Energy';
+    if (['AAPL','MSFT','NVDA','AMD','GOOGL','META','INTC'].includes(symbol)) return 'Technology';
+    if (['TSLA','F','GM'].includes(symbol)) return 'Automotive';
+    if (['AMZN','BABA','EBAY','SHOP'].includes(symbol)) return 'E-commerce';
+    if (['JPM','BAC','GS','V','MA'].includes(symbol)) return 'Financials';
+    if (['JNJ','PFE','UNH','MRNA'].includes(symbol)) return 'Healthcare';
+    if (['XOM','CVX','COP'].includes(symbol)) return 'Energy';
     return 'Diversified Growth';
   };
 
@@ -128,11 +128,13 @@ const TradingSimulator = () => {
             <label className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Action</label>
             <div className="grid grid-cols-2 gap-2 bg-surface-950/80 p-1 rounded-xl border border-surface-800/60">
               <button type="button" onClick={() => setTradeType('BUY')}
-                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${tradeType === 'BUY' ? 'bg-gain/10 text-gain border border-gain/20' : 'text-surface-500 border border-transparent'
-                  }`}>BUY</button>
+                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                  tradeType === 'BUY' ? 'bg-gain/10 text-gain border border-gain/20' : 'text-surface-500 border border-transparent'
+                }`}>BUY</button>
               <button type="button" onClick={() => setTradeType('SELL')}
-                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${tradeType === 'SELL' ? 'bg-loss/10 text-loss border border-loss/20' : 'text-surface-500 border border-transparent'
-                  }`}>SELL</button>
+                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+                  tradeType === 'SELL' ? 'bg-loss/10 text-loss border border-loss/20' : 'text-surface-500 border border-transparent'
+                }`}>SELL</button>
             </div>
           </div>
 
@@ -159,10 +161,11 @@ const TradingSimulator = () => {
               <span className="font-bold font-mono text-white text-lg">${totalCost}</span>
             </div>
             <button onClick={() => setShowPreview(true)} disabled={!livePrice || quantity < 1}
-              className={`w-full py-3.5 rounded-xl text-sm font-bold transition-all cursor-pointer ${tradeType === 'BUY'
+              className={`w-full py-3.5 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+                tradeType === 'BUY'
                   ? 'bg-gain hover:bg-gain-dark text-white shadow-lg shadow-gain/20'
                   : 'bg-loss hover:bg-loss-dark text-white shadow-lg shadow-loss/20'
-                } disabled:opacity-30`}>
+              } disabled:opacity-30`}>
               Preview {tradeType} Order
             </button>
           </div>
@@ -182,8 +185,9 @@ const TradingSimulator = () => {
               const isUp = item.change >= 0;
               return (
                 <button key={item.symbol} onClick={() => handleWatchlistSelect(item.symbol)}
-                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer text-left ${activeSymbol === item.symbol ? 'bg-brand-500/10 border border-brand-500/20' : 'hover:bg-surface-800/30 border border-transparent'
-                    }`}>
+                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer text-left ${
+                    activeSymbol === item.symbol ? 'bg-brand-500/10 border border-brand-500/20' : 'hover:bg-surface-800/30 border border-transparent'
+                  }`}>
                   <div className="flex items-center gap-3">
                     <span className="font-bold text-sm text-white font-mono">{item.symbol}</span>
                     <Badge variant={isUp ? 'gain' : 'loss'} size="xs">
@@ -216,9 +220,9 @@ const TradingSimulator = () => {
                   <th className="px-4 py-2.5 text-xs font-semibold uppercase text-right">Price</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+              <tbody className="divide-y divide-surface-800/40">
                 {transactions.slice(0, 15).map(t => (
-                  <tr key={t._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                  <tr key={t._id} className="hover:bg-surface-800/20 transition-colors">
                     <td className="px-4 py-2.5"><Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge></td>
                     <td className="px-4 py-2.5 font-bold text-white font-mono text-xs">{t.symbol}</td>
                     <td className="px-4 py-2.5 text-right font-mono text-surface-300 text-xs">{t.quantity}</td>
@@ -237,7 +241,7 @@ const TradingSimulator = () => {
       {/* Preview Modal */}
       <Modal isOpen={showPreview} onClose={() => setShowPreview(false)} title="Order Preview" size="sm">
         <div className="space-y-4">
-          <div className="bg-gray-50 bg-surface-900/80 rounded-xl p-4 space-y-3">
+          <div className="bg-surface-900/80 rounded-xl p-4 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Action</span>
               <Badge variant={tradeType === 'BUY' ? 'gain' : 'loss'}>{tradeType}</Badge>

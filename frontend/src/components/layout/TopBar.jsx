@@ -83,7 +83,7 @@ const TopBar = ({ onMenuToggle }) => {
           </button>
 
           <div className="hidden sm:flex items-center gap-2.5 pl-3 border-l border-surface-800/40">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-pink-600 flex items-center justify-center text-white text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-xs font-bold">
               {(user?.name || 'U')[0].toUpperCase()}
             </div>
             <span className="text-sm font-medium text-surface-300">{user?.name || 'User'}</span>

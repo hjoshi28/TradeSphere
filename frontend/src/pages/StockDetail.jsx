@@ -19,11 +19,11 @@ const StockDetail = () => {
         const [q, p] = await Promise.allSettled([getLiveQuote(symbol), getStockProfile(symbol)]);
         if (q.status === 'fulfilled') setQuote(q.value.data);
         if (p.status === 'fulfilled') setProfile(p.value.data);
-      } catch { } finally { setLoading(false); }
+      } catch {} finally { setLoading(false); }
     };
     fetchData();
     const interval = setInterval(async () => {
-      try { const { data } = await getLiveQuote(symbol); setQuote(data); } catch { }
+      try { const { data } = await getLiveQuote(symbol); setQuote(data); } catch {}
     }, 15000);
     return () => clearInterval(interval);
   }, [symbol]);
