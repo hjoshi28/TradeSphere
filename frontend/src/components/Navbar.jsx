@@ -26,23 +26,21 @@ const Navbar = () => {
       {token ? (
         <div className="flex gap-8 items-center">
           <div className="flex gap-2 bg-zinc-950 p-1.5 rounded-xl border border-zinc-800">
-            <Link 
-              to="/" 
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                isActive('/') 
-                  ? 'bg-zinc-900 text-purple-400' 
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+            <Link
+              to="/"
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${isActive('/')
+                ? 'bg-zinc-900 text-purple-400'
+                : 'text-zinc-400 hover:text-zinc-200'
+                }`}
             >
               Dashboard
             </Link>
-            <Link 
-              to="/trade" 
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                isActive('/trade') 
-                  ? 'bg-zinc-900 text-purple-400' 
-                  : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+            <Link
+              to="/trade"
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${isActive('/trade')
+                ? 'bg-zinc-900 text-purple-400'
+                : 'text-zinc-400 hover:text-zinc-200'
+                }`}
             >
               Trading Simulator
             </Link>
@@ -52,16 +50,16 @@ const Navbar = () => {
             user_id: <span className="text-white bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md ml-1">{userName}</span>
           </div>
 
-          <button 
-            onClick={logout} 
+          <button
+            onClick={logout}
             className="text-sm font-bold text-zinc-400 hover:text-pink-400 transition-colors cursor-pointer"
           >
             Sign Out
           </button>
         </div>
       ) : (
-        <Link 
-          to="/login" 
+        <Link
+          to="/login"
           className="bg-white hover:bg-zinc-200 text-black px-5 py-2 rounded-lg text-sm font-bold transition-colors"
         >
           Sign In

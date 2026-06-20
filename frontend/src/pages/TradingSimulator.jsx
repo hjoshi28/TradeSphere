@@ -1,212 +1,273 @@
 import React, { useState, useEffect } from 'react';
-import { executeTrade, getTransactions, getLiveQuote } from '../services/api';
-import WatchlistPanel from '../components/WatchlistPanel';
+import { useSearchParams } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import toast from 'react-hot-toast';
+import { executeTrade, getTransactions, getLiveQuote, getHoldings, getWatchlist, addToWatchlist, removeFromWatchlist } from '../services/api';
+import Modal from '../components/ui/Modal';
+import Badge from '../components/ui/Badge';
+import { HiOutlineBolt, HiOutlineStar, HiOutlineArrowTrendingUp, HiOutlineArrowTrendingDown } from 'react-icons/hi2';
 
 const TradingSimulator = () => {
+  const [searchParams] = useSearchParams();
   const [transactions, setTransactions] = useState([]);
-  const [activeSymbol, setActiveSymbol] = useState('AAPL');
+  const [activeSymbol, setActiveSymbol] = useState(searchParams.get('symbol') || 'AAPL');
   const [livePrice, setLivePrice] = useState(0);
+  const [quoteData, setQuoteData] = useState({});
   const [quantity, setQuantity] = useState(1);
   const [tradeType, setTradeType] = useState('BUY');
-  const [message, setMessage] = useState('');
   const [executing, setExecuting] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [watchlist, setWatchlist] = useState([]);
+  const [holdings, setHoldings] = useState([]);
 
   const fetchHistory = async () => {
-    try {
-      const { data } = await getTransactions();
-      setTransactions(data);
-    } catch (err) { console.error(err); }
+    try { const { data } = await getTransactions(); setTransactions(data); } catch { }
   };
 
   const fetchLivePrice = async (symbol) => {
     try {
       const { data } = await getLiveQuote(symbol);
       setLivePrice(data.price);
-    } catch (err) {
-      console.error("Error updating tracking data", err);
-    }
+      setQuoteData(data);
+    } catch { }
+  };
+
+  const fetchWatchlist = async () => {
+    try { const { data } = await getWatchlist(); setWatchlist(data); } catch { }
+  };
+
+  const fetchHoldings = async () => {
+    try { const { data } = await getHoldings(); setHoldings(data); } catch { }
   };
 
   useEffect(() => {
     fetchHistory();
+    fetchWatchlist();
+    fetchHoldings();
     fetchLivePrice(activeSymbol);
-
-    const priceTicker = setInterval(() => {
-      fetchLivePrice(activeSymbol);
-    }, 15000);
-
+    const priceTicker = setInterval(() => fetchLivePrice(activeSymbol), 15000);
     return () => clearInterval(priceTicker);
   }, [activeSymbol]);
 
-  const handleWatchlistSelect = (symbol) => {
-    setActiveSymbol(symbol);
+  const handleWatchlistSelect = (symbol) => setActiveSymbol(symbol);
+
+  const inferSector = (symbol) => {
+    if (['AAPL', 'MSFT', 'NVDA', 'AMD', 'GOOGL', 'META', 'INTC'].includes(symbol)) return 'Technology';
+    if (['TSLA', 'F', 'GM'].includes(symbol)) return 'Automotive';
+    if (['AMZN', 'BABA', 'EBAY', 'SHOP'].includes(symbol)) return 'E-commerce';
+    if (['JPM', 'BAC', 'GS', 'V', 'MA'].includes(symbol)) return 'Financials';
+    if (['JNJ', 'PFE', 'UNH', 'MRNA'].includes(symbol)) return 'Healthcare';
+    if (['XOM', 'CVX', 'COP'].includes(symbol)) return 'Energy';
+    return 'Diversified Growth';
   };
 
-  const handleOrder = async (e) => {
-    e.preventDefault();
+  const handleOrder = async () => {
     if (!livePrice || executing) return;
-    
     setExecuting(true);
-    let inferredSector = "Diversified Growth";
-    if (['AAPL', 'MSFT', 'NVDA', 'AMD'].includes(activeSymbol)) inferredSector = "Technology";
-    if (['TSLA', 'F', 'GM'].includes(activeSymbol)) inferredSector = "Automotive";
-    if (['AMZN', 'BABA', 'EBAY'].includes(activeSymbol)) inferredSector = "E-commerce";
-    if (['JPM', 'BAC', 'GS'].includes(activeSymbol)) inferredSector = "Financials";
-
     try {
       await executeTrade({
-        symbol: activeSymbol,
-        companyName: `${activeSymbol} Asset Corp.`,
-        type: tradeType,
-        quantity: Number(quantity),
-        price: livePrice,
-        sector: inferredSector
+        symbol: activeSymbol, companyName: `${activeSymbol} Corp.`,
+        type: tradeType, quantity: Number(quantity),
+        price: livePrice, sector: inferSector(activeSymbol)
       });
-      setMessage(`Order Processed: ${tradeType} ${quantity} ${activeSymbol} at $${livePrice}`);
+      toast.success(`${tradeType} ${quantity} ${activeSymbol} @ $${livePrice.toFixed(2)}`);
+      setShowPreview(false);
       fetchHistory();
+      fetchHoldings();
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Transaction could not be cleared.');
+      toast.error(err.response?.data?.message || 'Trade failed');
     } finally {
       setExecuting(false);
     }
   };
 
+  const currentHolding = holdings.find(h => h.symbol === activeSymbol);
+  const totalCost = (quantity * livePrice).toFixed(2);
+
   return (
-    <div className="min-h-screen bg-black text-zinc-200 py-10 px-8 font-sans">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        
-        {/* Order Submission Form Block */}
-        <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-xl flex flex-col justify-between h-[560px]">
+    <div className="max-w-7xl mx-auto space-y-6">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Trade Terminal</h1>
+        <p className="text-sm text-surface-400">Execute simulated trades with real-time market prices</p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        {/* Order Form */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="card p-6 space-y-5">
+          <div className="flex items-center justify-between pb-4 border-b border-surface-800/60">
+            <h2 className="text-sm font-bold text-surface-200 flex items-center gap-2">
+              <HiOutlineBolt className="w-4 h-4 text-brand-400" /> Order Terminal
+            </h2>
+            <Badge variant="brand" size="xs">Simulated</Badge>
+          </div>
+
+          {/* Symbol */}
           <div>
-            <div className="mb-5 pb-3 border-b border-zinc-800 flex justify-between items-center">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-400">Order Terminal</h2>
-              <span className="text-xs font-mono font-medium text-zinc-600">Simulated Account</span>
-            </div>
-            
-            {message && (
-              <div className="p-3.5 mb-4 rounded-lg bg-zinc-900 border border-zinc-800 text-sm font-mono text-zinc-200">
-                {message}
+            <label className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Symbol</label>
+            <input type="text" value={activeSymbol}
+              onChange={(e) => setActiveSymbol(e.target.value.toUpperCase())}
+              className="input-base font-mono font-bold uppercase text-lg" />
+          </div>
+
+          {/* Price Display */}
+          <div className="bg-surface-950/80 border border-surface-800/60 rounded-xl p-4 text-center">
+            <span className="text-xs uppercase text-surface-500 block mb-1">Market Price</span>
+            <span className="text-3xl font-bold font-mono text-white">${livePrice ? livePrice.toFixed(2) : '0.00'}</span>
+            {quoteData.high && (
+              <div className="flex justify-center gap-4 mt-2 text-xs text-surface-500">
+                <span>H: <span className="text-gain font-mono">${quoteData.high?.toFixed(2)}</span></span>
+                <span>L: <span className="text-loss font-mono">${quoteData.low?.toFixed(2)}</span></span>
+                <span>PC: <span className="font-mono text-surface-300">${quoteData.previousClose?.toFixed(2)}</span></span>
               </div>
             )}
-            
-            <form onSubmit={handleOrder} className="space-y-5">
-              <div>
-                <label className="block text-xs font-bold font-mono uppercase text-zinc-500 mb-2">Asset Symbol</label>
-                <input 
-                  type="text" 
-                  value={activeSymbol} 
-                  onChange={(e) => setActiveSymbol(e.target.value.toUpperCase())}
-                  className="w-full bg-black border border-zinc-800 p-3 rounded-lg text-white font-black uppercase tracking-wider focus:outline-none focus:border-zinc-700 font-mono text-base"
-                />
-              </div>
-
-              <div className="bg-zinc-900 p-4 rounded-xl border border-zinc-800 text-center">
-                <span className="text-xs font-mono uppercase text-zinc-500 block mb-1">Market Price Feed</span>
-                <span className="text-2xl font-black font-mono text-white">${livePrice ? livePrice.toFixed(2) : "0.00"}</span>
-              </div>
-              
-              <div>
-                <label className="block text-xs font-bold font-mono uppercase text-zinc-500 mb-2">Action Code</label>
-                <div className="grid grid-cols-2 gap-3 bg-black p-1 rounded-lg border border-zinc-800">
-                  <button 
-                    type="button" 
-                    className={`py-2 rounded-md text-sm font-bold transition-colors cursor-pointer ${
-                      tradeType === 'BUY' ? 'bg-zinc-900 text-purple-400 border border-zinc-800' : 'text-zinc-500'
-                    }`} 
-                    onClick={() => setTradeType('BUY')}
-                  >
-                    BUY
-                  </button>
-                  <button 
-                    type="button" 
-                    className={`py-2 rounded-md text-sm font-bold transition-colors cursor-pointer ${
-                      tradeType === 'SELL' ? 'bg-zinc-900 text-pink-400 border border-zinc-800' : 'text-zinc-500'
-                    }`} 
-                    onClick={() => setTradeType('SELL')}
-                  >
-                    SELL
-                  </button>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-bold font-mono uppercase text-zinc-500 mb-2">Quantity Order Units</label>
-                <input 
-                  type="number" 
-                  min="1" 
-                  value={quantity} 
-                  onChange={e => setQuantity(e.target.value)} 
-                  className="w-full bg-black border border-zinc-800 p-3 rounded-lg text-white font-black font-mono text-base focus:outline-none focus:border-zinc-700" 
-                />
-              </div>
-            </form>
           </div>
 
-          <div className="pt-4 border-t border-zinc-800 space-y-4">
-            <div className="flex justify-between items-center text-sm font-mono text-zinc-400">
-              <span>Gross Accounting Value:</span>
-              <span className="text-white font-black text-lg">${(quantity * livePrice).toFixed(2)}</span>
+          {/* Buy/Sell Toggle */}
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Action</label>
+            <div className="grid grid-cols-2 gap-2 bg-surface-950/80 p-1 rounded-xl border border-surface-800/60">
+              <button type="button" onClick={() => setTradeType('BUY')}
+                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${tradeType === 'BUY' ? 'bg-gain/10 text-gain border border-gain/20' : 'text-surface-500 border border-transparent'
+                  }`}>BUY</button>
+              <button type="button" onClick={() => setTradeType('SELL')}
+                className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${tradeType === 'SELL' ? 'bg-loss/10 text-loss border border-loss/20' : 'text-surface-500 border border-transparent'
+                  }`}>SELL</button>
             </div>
-            <button 
-              onClick={handleOrder} 
-              disabled={executing || !livePrice}
-              type="button" 
-              className={`w-full py-3.5 rounded-lg text-sm font-bold uppercase tracking-wider transition-all border cursor-pointer ${
-                tradeType === 'BUY' 
-                  ? 'bg-purple-600 text-white border-purple-600 hover:bg-purple-700' 
-                  : 'bg-black text-pink-400 border-pink-900/60 hover:bg-pink-950/20'
-              } disabled:opacity-30`}
-            >
-              {executing ? "Clearing..." : `Execute ${tradeType}`}
+          </div>
+
+          {/* Quantity */}
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Quantity</label>
+            <input type="number" min="1" value={quantity} onChange={e => setQuantity(e.target.value)}
+              className="input-base font-mono font-bold" />
+          </div>
+
+          {/* Position info */}
+          {currentHolding && (
+            <div className="bg-brand-500/5 border border-brand-500/10 rounded-xl p-3 text-xs">
+              <span className="text-surface-400">Current Position: </span>
+              <span className="font-bold text-white">{currentHolding.quantity} shares</span>
+              <span className="text-surface-500 ml-2">@ ${currentHolding.avgPrice.toFixed(2)} avg</span>
+            </div>
+          )}
+
+          {/* Total + Submit */}
+          <div className="pt-4 border-t border-surface-800/60 space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-surface-400">Estimated Total</span>
+              <span className="font-bold font-mono text-white text-lg">${totalCost}</span>
+            </div>
+            <button onClick={() => setShowPreview(true)} disabled={!livePrice || quantity < 1}
+              className={`w-full py-3.5 rounded-xl text-sm font-bold transition-all cursor-pointer ${tradeType === 'BUY'
+                  ? 'bg-gain hover:bg-gain-dark text-white shadow-lg shadow-gain/20'
+                  : 'bg-loss hover:bg-loss-dark text-white shadow-lg shadow-loss/20'
+                } disabled:opacity-30`}>
+              Preview {tradeType} Order
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Watchlist Core Frame Component */}
-        <WatchlistPanel onSelectStock={handleWatchlistSelect} />
-
-        {/* Order History Database List Container */}
-        <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 flex flex-col h-[560px]">
-          <div className="mb-4 pb-3 border-b border-zinc-800 flex justify-between items-center">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-400">Order Logs</h2>
-            <span className="text-xs font-mono text-zinc-600 font-semibold">Database Stream</span>
+        {/* Watchlist */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="card p-5 max-h-[650px] flex flex-col">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-surface-800/60">
+            <h2 className="text-sm font-bold text-surface-200 flex items-center gap-2">
+              <HiOutlineStar className="w-4 h-4 text-brand-400" /> Watchlist
+            </h2>
+            <span className="text-xs text-surface-500">{watchlist.length} stocks</span>
           </div>
-          <div className="overflow-y-auto flex-grow rounded-lg border border-zinc-800 bg-black/50">
+          <div className="space-y-1.5 overflow-y-auto flex-1">
+            {watchlist.map((item) => {
+              const isUp = item.change >= 0;
+              return (
+                <button key={item.symbol} onClick={() => handleWatchlistSelect(item.symbol)}
+                  className={`w-full flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer text-left ${activeSymbol === item.symbol ? 'bg-brand-500/10 border border-brand-500/20' : 'hover:bg-surface-800/30 border border-transparent'
+                    }`}>
+                  <div className="flex items-center gap-3">
+                    <span className="font-bold text-sm text-white font-mono">{item.symbol}</span>
+                    <Badge variant={isUp ? 'gain' : 'loss'} size="xs">
+                      {isUp ? '+' : ''}{item.percentChange?.toFixed(2)}%
+                    </Badge>
+                  </div>
+                  <span className="font-mono text-sm font-semibold text-surface-300">${item.price?.toFixed(2)}</span>
+                </button>
+              );
+            })}
+            {watchlist.length === 0 && (
+              <p className="text-xs text-surface-500 text-center py-8">No watchlist items. Add from Market page.</p>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Order History */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="card overflow-hidden max-h-[650px] flex flex-col">
+          <div className="px-5 py-4 border-b border-surface-800/60">
+            <h2 className="text-sm font-bold text-surface-200">Recent Orders</h2>
+          </div>
+          <div className="overflow-y-auto flex-1">
             <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-900 text-zinc-400 border-b border-zinc-800 font-mono uppercase text-xs sticky top-0">
+              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40 sticky top-0">
                 <tr>
-                  <th className="p-3.5 font-semibold">Type</th>
-                  <th className="p-3.5 font-semibold">Ticker</th>
-                  <th className="p-3.5 text-right font-semibold">Size</th>
-                  <th className="p-3.5 text-right font-semibold">Value</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold uppercase">Type</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold uppercase">Symbol</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold uppercase text-right">Qty</th>
+                  <th className="px-4 py-2.5 text-xs font-semibold uppercase text-right">Price</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800/60 text-zinc-300">
-                {transactions.map(t => (
-                  <tr key={t._id} className="hover:bg-zinc-900/20 transition-colors">
-                    <td className="p-3.5 font-mono text-xs font-bold">
-                      <span className={t.type === 'BUY' ? 'text-purple-400' : 'text-pink-400'}>
-                        {t.type}
-                      </span>
-                    </td>
-                    <td className="p-3.5 font-bold uppercase text-white font-mono tracking-wide">{t.symbol}</td>
-                    <td className="p-3.5 text-right font-mono font-medium">{t.quantity}</td>
-                    <td className="p-3.5 text-right font-mono font-medium text-zinc-200">${t.price.toFixed(2)}</td>
+              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+                {transactions.slice(0, 15).map(t => (
+                  <tr key={t._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                    <td className="px-4 py-2.5"><Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge></td>
+                    <td className="px-4 py-2.5 font-bold text-white font-mono text-xs">{t.symbol}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-surface-300 text-xs">{t.quantity}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-surface-300 text-xs">${t.price.toFixed(2)}</td>
                   </tr>
                 ))}
                 {transactions.length === 0 && (
-                  <tr>
-                    <td colSpan="4" className="p-12 text-center text-zinc-600 font-mono text-xs uppercase tracking-wider font-semibold">
-                      No matching records found.
-                    </td>
-                  </tr>
+                  <tr><td colSpan="4" className="px-4 py-12 text-center text-surface-500 text-sm">No orders yet</td></tr>
                 )}
               </tbody>
             </table>
           </div>
-        </div>
-
+        </motion.div>
       </div>
+
+      {/* Preview Modal */}
+      <Modal isOpen={showPreview} onClose={() => setShowPreview(false)} title="Order Preview" size="sm">
+        <div className="space-y-4">
+          <div className="bg-gray-50 bg-surface-900/80 rounded-xl p-4 space-y-3">
+            <div className="flex justify-between text-sm">
+              <span className="text-surface-400">Action</span>
+              <Badge variant={tradeType === 'BUY' ? 'gain' : 'loss'}>{tradeType}</Badge>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-surface-400">Symbol</span>
+              <span className="font-bold text-white font-mono">{activeSymbol}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-surface-400">Quantity</span>
+              <span className="font-mono text-white">{quantity}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-surface-400">Price</span>
+              <span className="font-mono text-white">${livePrice?.toFixed(2)}</span>
+            </div>
+            <div className="pt-3 border-t border-surface-700/40 flex justify-between text-sm">
+              <span className="font-semibold text-surface-300">Total</span>
+              <span className="font-bold font-mono text-white text-lg">${totalCost}</span>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            <button onClick={() => setShowPreview(false)} className="btn-secondary flex-1">Cancel</button>
+            <button onClick={handleOrder} disabled={executing}
+              className={`flex-1 btn text-sm font-bold ${tradeType === 'BUY' ? 'bg-gain hover:bg-gain-dark text-white' : 'bg-loss hover:bg-loss-dark text-white'}`}>
+              {executing ? 'Executing...' : `Confirm ${tradeType}`}
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

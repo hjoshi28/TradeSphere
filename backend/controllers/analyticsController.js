@@ -1,4 +1,6 @@
 const Holding = require('../models/Holding');
+const Transaction = require('../models/Transaction');
+const User = require('../models/User');
 const axios = require('axios');
 
 exports.getPortfolioAnalytics = async (req, res) => {
@@ -54,6 +56,35 @@ exports.getPortfolioAnalytics = async (req, res) => {
             healthScore,
             recommendation,
             sectorData
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getUserStats = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const transactions = await Transaction.find({ user: userId });
+        const holdings = await Holding.find({ user: userId });
+
+        const totalTrades = transactions.length;
+        const totalBuys = transactions.filter(t => t.type === 'BUY').length;
+        const totalSells = transactions.filter(t => t.type === 'SELL').length;
+        const totalVolume = transactions.reduce((s, t) => s + t.totalAmount, 0);
+
+        // Most traded symbol
+        const symbolCounts = {};
+        transactions.forEach(t => { symbolCounts[t.symbol] = (symbolCounts[t.symbol] || 0) + 1; });
+        const mostTraded = Object.keys(symbolCounts).sort((a, b) => symbolCounts[b] - symbolCounts[a])[0] || null;
+
+        res.json({
+            totalTrades,
+            totalBuys,
+            totalSells,
+            totalVolume: parseFloat(totalVolume.toFixed(2)),
+            activeHoldings: holdings.length,
+            mostTraded,
         });
     } catch (error) {
         res.status(500).json({ message: error.message });

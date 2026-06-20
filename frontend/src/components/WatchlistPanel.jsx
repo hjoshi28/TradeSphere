@@ -25,7 +25,7 @@ const WatchlistPanel = ({ onSelectStock }) => {
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!newSymbol || isSubmitting) return;
-    
+
     try {
       setIsSubmitting(true);
       setFeedback('');
@@ -61,15 +61,15 @@ const WatchlistPanel = ({ onSelectStock }) => {
         </div>
 
         <form onSubmit={handleAdd} className="flex gap-2 mb-5">
-          <input 
-            type="text" 
-            placeholder="ADD SYMBOL (e.g. NVDA)" 
+          <input
+            type="text"
+            placeholder="ADD SYMBOL (e.g. NVDA)"
             value={newSymbol}
             onChange={(e) => setNewSymbol(e.target.value)}
             className="w-full bg-black border border-zinc-800 p-3 rounded-lg text-sm font-bold tracking-wider text-white uppercase focus:outline-none focus:border-zinc-700 font-mono placeholder:normal-case placeholder:font-normal placeholder:text-zinc-600"
           />
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={isSubmitting}
             className="bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-bold px-5 rounded-lg text-sm tracking-wide transition-colors disabled:opacity-40 cursor-pointer"
           >
@@ -87,8 +87,8 @@ const WatchlistPanel = ({ onSelectStock }) => {
           {watchlist.map((item) => {
             const isUp = item.change >= 0;
             return (
-              <div 
-                key={item.symbol} 
+              <div
+                key={item.symbol}
                 onClick={() => onSelectStock(item.symbol)}
                 className="flex justify-between items-center p-3.5 border border-zinc-900 bg-black/40 rounded-lg hover:bg-zinc-900/40 hover:border-zinc-800 transition-all cursor-pointer"
               >
@@ -98,10 +98,10 @@ const WatchlistPanel = ({ onSelectStock }) => {
                     {isUp ? '+' : ''}{item.percentChange.toFixed(2)}%
                   </span>
                 </div>
-                
+
                 <div className="text-right flex items-center gap-4">
                   <span className="font-mono font-bold text-sm text-zinc-200">${item.price.toFixed(2)}</span>
-                  <button 
+                  <button
                     onClick={(e) => handleRemove(item.symbol, e)}
                     className="text-zinc-600 hover:text-zinc-300 font-bold text-sm p-1 cursor-pointer"
                   >
@@ -111,7 +111,7 @@ const WatchlistPanel = ({ onSelectStock }) => {
               </div>
             );
           })}
-          
+
           {watchlist.length === 0 && (
             <div className="py-16 text-center">
               <p className="text-xs font-mono text-zinc-600 uppercase tracking-wider font-semibold">No symbols tracking.</p>

@@ -1,127 +1,307 @@
 import React, { useEffect, useState } from 'react';
-import { getAnalytics, getHoldings } from '../services/api';
-import PortfolioChart from '../components/PortfolioChart';
-import RiskAnalyzer from '../components/RiskAnalyzer';
-import AiAdvisor from '../components/AiAdvisor';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { getAnalytics, getHoldings, getTransactions, getWatchlist, getMarketNews } from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import StatCard from '../components/ui/StatCard';
+import { PageLoader } from '../components/ui/LoadingSpinner';
+import Badge from '../components/ui/Badge';
+import {
+  HiOutlineBriefcase,
+  HiOutlineArrowTrendingUp,
+  HiOutlineBanknotes,
+  HiOutlineShieldCheck,
+  HiOutlineSparkles,
+  HiOutlineArrowRight,
+} from 'react-icons/hi2';
+import {
+  PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
+  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+} from 'recharts';
+
+const COLORS = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [analytics, setAnalytics] = useState(null);
   const [holdings, setHoldings] = useState([]);
+  const [transactions, setTransactions] = useState([]);
+  const [watchlist, setWatchlist] = useState([]);
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resAnalytics = await getAnalytics();
-        const resHoldings = await getHoldings();
-        setAnalytics(resAnalytics.data);
-        setHoldings(resHoldings.data);
+        const [resAnalytics, resHoldings, resTx, resWatch, resNews] = await Promise.allSettled([
+          getAnalytics(),
+          getHoldings(),
+          getTransactions(),
+          getWatchlist(),
+          getMarketNews(),
+        ]);
+
+        if (resAnalytics.status === 'fulfilled') setAnalytics(resAnalytics.value.data);
+        if (resHoldings.status === 'fulfilled') setHoldings(resHoldings.value.data);
+        if (resTx.status === 'fulfilled') setTransactions(resTx.value.data);
+        if (resWatch.status === 'fulfilled') setWatchlist(resWatch.value.data);
+        if (resNews.status === 'fulfilled') setNews(resNews.value.data?.slice(0, 5) || []);
       } catch (err) {
-        console.error("Error connecting to data layer", err);
+        console.error('Dashboard load error', err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
   }, []);
 
-  if (!analytics) {
-    return (
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center gap-3 text-zinc-400 font-mono text-sm tracking-wider">
-        <div className="w-6 h-6 border-2 border-zinc-800 border-t-purple-500 rounded-full animate-spin"></div>
-        <span>LOADING SESSIONS...</span>
-      </div>
-    );
-  }
+  if (loading) return <PageLoader text="Loading your dashboard..." />;
+
+  const dailyPL = analytics?.netGainLoss || 0;
+  const cashBalance = user?.balance || 100000;
+
+  // Mock performance chart data from holdings
+  const perfData = holdings.map((h, i) => ({
+    name: h.symbol,
+    value: h.quantity * h.avgPrice,
+  }));
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100 py-10 px-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-8">
-        
-        {/* Core Financial Balance Banner */}
-        <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pb-6 border-b border-zinc-800">
-          <div className="space-y-1.5">
-            <h1 className="text-3xl font-black tracking-tight text-white">Portfolio Dashboard</h1>
-            <p className="text-sm text-zinc-400">General overview of asset values, allocations, and algorithmic risk profiling.</p>
-          </div>
-          <div className="bg-zinc-950 border border-zinc-800 px-6 py-4 rounded-xl text-left sm:text-right min-w-[260px] shadow-sm">
-            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Total Portfolio Value</span>
-            <span className="text-3xl font-black font-mono text-white">${analytics.currentValue.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-          </div>
-        </header>
+    <div className="max-w-7xl mx-auto space-y-6">
+      {/* Header */}
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+          Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {user?.name?.split(' ')[0] || 'Trader'}
+        </h1>
+        <p className="text-sm text-surface-400">Here's your portfolio overview</p>
+      </motion.div>
 
-        {/* Modular Metrics Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-xl">
-            <span className="text-xs font-bold font-mono uppercase text-zinc-500 block mb-1.5">Invested Capital</span>
-            <p className="text-2xl font-bold font-mono text-zinc-100">${analytics.totalInvestment.toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
-          </div>
-          
-          <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-xl">
-            <span className="text-xs font-bold font-mono uppercase text-zinc-500 block mb-1.5">Net Yield Performance</span>
-            <p className="text-2xl font-black font-mono">
-              <span className={analytics.netGainLoss >= 0 ? 'text-purple-400' : 'text-pink-400'}>
-                {analytics.netGainLoss >= 0 ? '+' : '-'}${Math.abs(analytics.netGainLoss).toLocaleString(undefined, {minimumFractionDigits: 2})}
-              </span>
-            </p>
-          </div>
-
-          <div className="bg-zinc-950 border border-zinc-800 p-6 rounded-xl sm:col-span-2 lg:col-span-1">
-            <span className="text-xs font-bold font-mono uppercase text-zinc-500 block mb-1.5">Monitored Assets</span>
-            <p className="text-2xl font-bold font-mono text-zinc-100">{holdings.length} Positions Active</p>
-          </div>
-        </div>
-
-        {/* Risk Metrics Layer */}
-        <RiskAnalyzer score={analytics.healthScore} recommendation={analytics.recommendation} />
-
-        {/* Main Interface Split Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          
-          {/* Data Records Table */}
-          <div className="lg:col-span-2 bg-zinc-950 border border-zinc-800 rounded-xl overflow-hidden shadow-sm">
-            <div className="px-5 py-4 bg-zinc-900/40 border-b border-zinc-800 flex justify-between items-center">
-              <span className="text-sm font-bold text-zinc-200">Active Holdings Ledger</span>
-              <span className="text-xs font-mono font-semibold text-zinc-500">Live Engine</span>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-zinc-950 text-zinc-400 border-b border-zinc-800 font-mono uppercase text-xs">
-                  <tr>
-                    <th className="p-4 font-semibold">Asset</th>
-                    <th className="p-4 text-right font-semibold">Shares</th>
-                    <th className="p-4 text-right font-semibold">Avg Cost</th>
-                    <th className="p-4 pl-8 font-semibold">Sector</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-800/80 text-zinc-300 text-base">
-                  {holdings.map((h) => (
-                    <tr key={h._id} className="hover:bg-zinc-900/30 transition-colors">
-                      <td className="p-4 font-black text-white uppercase tracking-wider font-mono">{h.symbol}</td>
-                      <td className="p-4 text-right font-mono font-medium">{h.quantity.toLocaleString()}</td>
-                      <td className="p-4 text-right font-mono text-zinc-200">${h.avgPrice.toFixed(2)}</td>
-                      <td className="p-4 pl-8 font-mono text-zinc-400 uppercase text-xs font-semibold tracking-wide">{h.sector}</td>
-                    </tr>
-                  ))}
-                  {holdings.length === 0 && (
-                    <tr>
-                      <td colSpan="4" className="p-12 text-center text-zinc-500 font-mono text-xs uppercase tracking-wider font-semibold">
-                        No active allocations recorded. Open a route via the simulator desk.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-          
-          {/* Portfolio Chart Frame */}
-          <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-5 h-full">
-            <PortfolioChart data={analytics.sectorData} />
-          </div>
-        </div>
-
-        {/* AI Advisory Panel */}
-        <AiAdvisor />
-
+      {/* Stats Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          title="Portfolio Value"
+          value={analytics?.currentValue || 0}
+          prefix="$"
+          icon={HiOutlineBriefcase}
+          change={dailyPL >= 0 ? `+$${Math.abs(dailyPL).toLocaleString(undefined, { minimumFractionDigits: 2 })}` : `-$${Math.abs(dailyPL).toLocaleString(undefined, { minimumFractionDigits: 2 })}`}
+          changeType={dailyPL >= 0 ? 'gain' : 'loss'}
+          delay={0}
+        />
+        <StatCard
+          title="Daily P/L"
+          value={Math.abs(dailyPL)}
+          prefix={dailyPL >= 0 ? '+$' : '-$'}
+          icon={HiOutlineArrowTrendingUp}
+          changeType={dailyPL >= 0 ? 'gain' : 'loss'}
+          delay={0.1}
+        />
+        <StatCard
+          title="Cash Balance"
+          value={cashBalance}
+          prefix="$"
+          icon={HiOutlineBanknotes}
+          delay={0.2}
+        />
+        <StatCard
+          title="Health Score"
+          value={analytics?.healthScore || 0}
+          suffix="/100"
+          icon={HiOutlineShieldCheck}
+          changeType={analytics?.healthScore >= 70 ? 'gain' : analytics?.healthScore >= 40 ? 'neutral' : 'loss'}
+          change={analytics?.healthScore >= 70 ? 'Good' : analytics?.healthScore >= 40 ? 'Fair' : 'Risk'}
+          delay={0.3}
+        />
       </div>
+
+      {/* Main Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Holdings Table */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="lg:col-span-2 card overflow-hidden"
+        >
+          <div className="flex items-center justify-between px-5 py-4 border-b border-surface-800/60">
+            <h2 className="text-sm font-bold text-surface-200">Active Holdings</h2>
+            <Link to="/portfolio" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
+              View All <HiOutlineArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40">
+                <tr>
+                  <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider">Asset</th>
+                  <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-right">Shares</th>
+                  <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-right">Avg Cost</th>
+                  <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider">Sector</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 divide-surface-800/40">
+                {holdings.slice(0, 6).map((h) => (
+                  <tr key={h._id} className="hover:bg-gray-50 bg-surface-800/20 transition-colors">
+                    <td className="px-5 py-3.5 font-bold text-white font-mono text-sm">{h.symbol}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">{h.quantity.toLocaleString()}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">${h.avgPrice.toFixed(2)}</td>
+                    <td className="px-5 py-3.5"><Badge variant="brand" size="xs">{h.sector}</Badge></td>
+                  </tr>
+                ))}
+                {holdings.length === 0 && (
+                  <tr>
+                    <td colSpan="4" className="px-5 py-12 text-center text-surface-500 text-sm">
+                      No holdings yet. <Link to="/trade" className="text-brand-400 hover:underline">Start trading</Link>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </motion.div>
+
+        {/* Sector Allocation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="card p-5"
+        >
+          <h2 className="text-sm font-bold text-surface-200 mb-4">Sector Allocation</h2>
+          {analytics?.sectorData && analytics.sectorData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={240}>
+              <PieChart>
+                <Pie data={analytics.sectorData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} paddingAngle={4} dataKey="value">
+                  {analytics.sectorData.map((_, index) => (
+                    <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '12px', fontSize: '12px', color: '#fff' }}
+                  formatter={(value) => [`$${value.toLocaleString()}`, 'Value']}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="h-60 flex items-center justify-center text-sm text-surface-500">No allocation data</div>
+          )}
+          <div className="space-y-2 mt-2">
+            {analytics?.sectorData?.map((s, i) => (
+              <div key={i} className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                  <span className="text-surface-300">{s.name}</span>
+                </div>
+                <span className="font-mono text-surface-400">${s.value.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Bottom Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Recent Transactions */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-surface-200">Recent Transactions</h2>
+            <Link to="/transactions" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
+              View All <HiOutlineArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="space-y-3">
+            {transactions.slice(0, 5).map((t) => (
+              <div key={t._id} className="flex items-center justify-between py-2 border-b border-surface-800/30 last:border-0">
+                <div className="flex items-center gap-3">
+                  <Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge>
+                  <span className="text-sm font-semibold text-white">{t.symbol}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-sm font-mono text-surface-300">${t.price.toFixed(2)}</span>
+                  <span className="text-xs text-surface-500 ml-2">×{t.quantity}</span>
+                </div>
+              </div>
+            ))}
+            {transactions.length === 0 && (
+              <p className="text-sm text-surface-500 text-center py-6">No transactions yet</p>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Watchlist Movers */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-surface-200">Watchlist</h2>
+            <Link to="/watchlist" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
+              View All <HiOutlineArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {watchlist.slice(0, 6).map((item) => {
+              const isUp = item.change >= 0;
+              return (
+                <Link key={item.symbol} to={`/market/${item.symbol}`}
+                  className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-surface-800/30 transition-colors">
+                  <span className="text-sm font-bold text-white">{item.symbol}</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono text-surface-300">${item.price?.toFixed(2)}</span>
+                    <Badge variant={isUp ? 'gain' : 'loss'} size="xs">
+                      {isUp ? '+' : ''}{item.percentChange?.toFixed(2)}%
+                    </Badge>
+                  </div>
+                </Link>
+              );
+            })}
+            {watchlist.length === 0 && (
+              <p className="text-sm text-surface-500 text-center py-6">Add stocks to your watchlist</p>
+            )}
+          </div>
+        </motion.div>
+
+        {/* AI Insights + News */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="card p-5 space-y-5">
+          {/* AI Quick Card */}
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <HiOutlineSparkles className="w-4 h-4 text-brand-400" />
+              <h2 className="text-sm font-bold text-surface-200">AI Insights</h2>
+            </div>
+            <div className="bg-brand-500/5 border border-brand-500/10 rounded-xl p-4">
+              <p className="text-sm text-surface-300 leading-relaxed">
+                {analytics?.recommendation || 'Generate AI insights for personalized portfolio advice.'}
+              </p>
+              <Link to="/ai-advisor" className="inline-flex items-center gap-1 text-xs text-brand-400 hover:text-brand-300 font-semibold mt-3">
+                Full Analysis <HiOutlineArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Market News */}
+          <div>
+            <h3 className="text-sm font-bold text-surface-200 mb-3">Market News</h3>
+            <div className="space-y-3">
+              {news.slice(0, 3).map((n, i) => (
+                <a key={i} href={n.url} target="_blank" rel="noopener noreferrer"
+                  className="block text-xs text-surface-400 hover:text-surface-200 transition-colors leading-relaxed line-clamp-2">
+                  {n.headline}
+                </a>
+              ))}
+              {news.length === 0 && <p className="text-xs text-surface-500">News loading...</p>}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Risk Alert */}
+      {analytics && analytics.healthScore < 50 && (
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
+          className="bg-loss/5 border border-loss/15 rounded-2xl p-5 flex items-start gap-4"
+        >
+          <div className="w-10 h-10 rounded-xl bg-loss/10 flex items-center justify-center flex-shrink-0">
+            <HiOutlineShieldCheck className="w-5 h-5 text-loss" />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-loss-light mb-1">Portfolio Risk Alert</h3>
+            <p className="text-sm text-surface-400">{analytics.recommendation}</p>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 };

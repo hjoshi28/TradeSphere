@@ -53,6 +53,7 @@ exports.getPortfolioInsights = async (req, res) => {
 
     } catch (error) {
         console.error("Gemini Endpoint Connectivity Error:", error.message);
+        console.error("Gemini API Response:", JSON.stringify(error.response?.data, null, 2));
         res.status(500).json({ message: "Failed to generate AI portfolio metrics" });
     }
 };

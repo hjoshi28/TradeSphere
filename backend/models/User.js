@@ -6,7 +6,18 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     balance: { type: Number, default: 100000 }, // Virtual funds for simulation
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    avatar: { type: String, default: '' },
+    resetPasswordToken: { type: String },
+    resetPasswordExpire: { type: Date },
+    preferences: {
+        theme: { type: String, default: 'dark' },
+        notifications: {
+            tradeConfirmations: { type: Boolean, default: true },
+            priceAlerts: { type: Boolean, default: true },
+            aiInsights: { type: Boolean, default: false },
+        }
+    }
 }, { timestamps: true });
 
 userSchema.pre('save', async function (next) {
