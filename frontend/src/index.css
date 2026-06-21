@@ -7,9 +7,42 @@
    ═══════════════════════════════════════════ */
 
 @layer base {
+  :root {
+    --color-white: 74 4 78;
+    --surface-50: 253 244 255;
+    --surface-100: 250 232 255;
+    --surface-200: 59 7 100;
+    --surface-300: 74 4 78;
+    --surface-400: 134 25 143;
+    --surface-500: 162 28 175;
+    --surface-600: 192 38 211;
+    --surface-700: 232 121 249;
+    --surface-800: 250 232 255;
+    --surface-850: 253 244 255;
+    --surface-900: 74 4 78;
+    --surface-950: 255 255 255;
+  }
+
+  .card,
+  .glass,
+  .bg-surface-900,
+  .bg-brand-500,
+  .bg-brand-600 {
+    --color-white: 255 255 255;
+    --surface-200: 255 255 255;
+    --surface-300: 253 244 255;
+    --surface-400: 250 232 255;
+    --surface-500: 245 208 254;
+    --surface-600: 240 171 252;
+    --surface-700: 232 121 249;
+    --surface-800: 112 26 117;
+    --surface-900: 74 4 78;
+    --surface-950: 59 7 100;
+  }
+
   * {
     scrollbar-width: thin;
-    scrollbar-color: #1e293b #0f172a;
+    scrollbar-color: #e879f9 #ffffff;
   }
 
   *::-webkit-scrollbar {
@@ -18,44 +51,47 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: #0f172a;
+    background: #ffffff;
   }
 
   *::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #e879f9;
     border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #d946ef;
   }
 
   body {
     margin: 0;
-    background-color: #020617;
+    background-color: rgb(var(--surface-950));
+    color: rgb(var(--color-white));
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: rgba(99, 102, 241, 0.3);
-    color: #e0e7ff;
+    background: rgba(217, 70, 239, 0.3);
+    color: #4a044e;
   }
 }
+
+
 
 @layer components {
 
   /* Glassmorphism Card */
   .glass {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    background: linear-gradient(135deg, rgba(var(--surface-900) / 0.9) 0%, rgba(var(--surface-900) / 0.7) 100%);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .glass-hover:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+    background: linear-gradient(135deg, rgba(var(--surface-900) / 0.95) 0%, rgba(var(--surface-900) / 0.8) 100%);
     border-color: rgba(255, 255, 255, 0.12);
   }
 

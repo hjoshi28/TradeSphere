@@ -24,12 +24,12 @@ const StatCard = ({ title, value, change, changeType = 'neutral', icon: Icon, pr
           </div>
         )}
       </div>
-      <div className="flex items-end gap-3">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
         <span className="text-2xl font-bold text-white font-mono tracking-tight">
           {prefix}{typeof value === 'number' ? value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : value}{suffix}
         </span>
         {change !== undefined && change !== null && (
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold ${changeColors[changeType]}`}>
+          <span className={`inline-flex shrink-0 items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-bold ${changeColors[changeType]}`}>
             {changeType === 'gain' ? <HiArrowTrendingUp className="w-3 h-3" /> : changeType === 'loss' ? <HiArrowTrendingDown className="w-3 h-3" /> : null}
             {change}
           </span>

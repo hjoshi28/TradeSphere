@@ -43,23 +43,6 @@ const Settings = () => {
         <p className="text-sm text-surface-400">Manage your preferences and security</p>
       </motion.div>
 
-      {/* Theme */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-        className="card p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <HiOutlinePaintBrush className="w-5 h-5 text-brand-400" />
-          <h2 className="text-lg font-bold text-white">Appearance</h2>
-        </div>
-        <div className="flex items-center justify-between py-3 border-b border-surface-800/40">
-          <div>
-            <p className="text-sm font-medium text-surface-200">Dark Mode</p>
-            <p className="text-xs text-surface-500">Premium dark theme is always active</p>
-          </div>
-          <div className="w-12 h-6 bg-brand-500 rounded-full p-0.5 cursor-pointer">
-            <div className="w-5 h-5 bg-white rounded-full shadow-md transform translate-x-6 transition-transform" />
-          </div>
-        </div>
-      </motion.div>
 
       {/* Password */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
