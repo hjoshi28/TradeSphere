@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <nav className="bg-black border-b border-zinc-800 px-8 py-5 flex justify-between items-center shadow-md">
       {/* Platform Branding */}
-      <Link to="/" className="text-xl font-black text-white tracking-tight flex items-center gap-2.5">
+      <Link to="/" className="text-xl font-black text-surface-900 tracking-tight flex items-center gap-2.5">
         <span>TradeSphere</span>
         <span className="w-2 h-2 rounded-full bg-purple-500"></span>
       </Link>
@@ -49,7 +49,7 @@ const Navbar = () => {
           </div>
 
           <div className="text-sm font-semibold text-zinc-400 font-mono">
-            user_id: <span className="text-white bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md ml-1">{userName}</span>
+            user_id: <span className="text-surface-900 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-md ml-1">{userName}</span>
           </div>
 
           <button 

@@ -59,7 +59,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-950 relative overflow-hidden py-12">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-50 relative overflow-hidden py-12">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-brand-500/5 rounded-full blur-[120px]" />
       </div>
@@ -75,16 +75,16 @@ const Signup = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
               <span className="text-lg font-black text-white">T</span>
             </div>
-            <span className="text-2xl font-bold text-white">TradeSphere</span>
+            <span className="text-2xl font-bold text-surface-900">TradeSphere</span>
           </Link>
-          <h1 className="text-2xl font-bold text-white mb-2">Create your account</h1>
+          <h1 className="text-2xl font-bold text-surface-900 mb-2">Create your account</h1>
           <p className="text-sm text-surface-400">Start trading with $100,000 in virtual funds</p>
         </div>
 
         <form onSubmit={handleSubmit} className="glass rounded-2xl p-8 space-y-5">
           {error && (
             <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-              className="p-3.5 rounded-xl bg-loss/10 border border-loss/20 text-sm text-loss-light">
+              className="p-3.5 rounded-xl bg-loss/10 border border-loss/20 text-sm text-loss">
               {error}
             </motion.div>
           )}
@@ -108,7 +108,7 @@ const Signup = () => {
                 onChange={e => setPassword(e.target.value)} placeholder="Min. 6 characters"
                 className="input-base pr-11" />
               <button type="button" onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-500 hover:text-surface-300 cursor-pointer">
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-300 cursor-pointer">
                 {showPassword ? <HiOutlineEyeSlash className="w-4 h-4" /> : <HiOutlineEye className="w-4 h-4" />}
               </button>
             </div>
@@ -116,10 +116,10 @@ const Signup = () => {
               <div className="flex items-center gap-2 mt-2">
                 <div className="flex-1 flex gap-1">
                   {[1,2,3].map(i => (
-                    <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength.level ? strength.color : 'bg-surface-800'}`} />
+                    <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength.level ? strength.color : 'bg-surface-50'}`} />
                   ))}
                 </div>
-                <span className="text-xs text-surface-500">{strength.label}</span>
+                <span className="text-xs text-surface-400">{strength.label}</span>
               </div>
             )}
           </div>
@@ -141,7 +141,7 @@ const Signup = () => {
           </button>
         </form>
 
-        <p className="text-center text-sm text-surface-500 mt-6">
+        <p className="text-center text-sm text-surface-400 mt-6">
           Already have an account?{' '}
           <Link to="/login" className="text-brand-400 hover:text-brand-300 font-semibold">Sign in</Link>
         </p>

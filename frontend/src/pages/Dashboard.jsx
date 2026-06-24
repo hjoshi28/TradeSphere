@@ -70,7 +70,7 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+        <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">
           Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 18 ? 'afternoon' : 'evening'}, {user?.name?.split(' ')[0] || 'Trader'}
         </h1>
         <p className="text-sm text-surface-400">Here's your portfolio overview</p>
@@ -120,15 +120,15 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="lg:col-span-2 card overflow-hidden"
         >
-          <div className="flex items-center justify-between px-5 py-4 border-b border-surface-800/60">
-            <h2 className="text-sm font-bold text-surface-200">Active Holdings</h2>
+          <div className="flex items-center justify-between px-5 py-4 border-b border-surface-200/60">
+            <h2 className="text-sm font-bold text-surface-800">Active Holdings</h2>
             <Link to="/portfolio" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
               View All <HiOutlineArrowRight className="w-3 h-3" />
             </Link>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40">
+              <thead className="bg-white/50 text-surface-400 border-b border-surface-200/40">
                 <tr>
                   <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider">Asset</th>
                   <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider text-right">Shares</th>
@@ -136,18 +136,18 @@ const Dashboard = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase tracking-wider">Sector</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-800/40">
+              <tbody className="divide-y divide-surface-200/40">
                 {holdings.slice(0, 6).map((h) => (
-                  <tr key={h._id} className="hover:bg-surface-800/20 transition-colors">
-                    <td className="px-5 py-3.5 font-bold text-white font-mono text-sm">{h.symbol}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">{h.quantity.toLocaleString()}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">${h.avgPrice.toFixed(2)}</td>
+                  <tr key={h._id} className="hover:bg-surface-100/20 transition-colors">
+                    <td className="px-5 py-3.5 font-bold text-surface-900 font-mono text-sm">{h.symbol}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">{h.quantity.toLocaleString()}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">${h.avgPrice.toFixed(2)}</td>
                     <td className="px-5 py-3.5"><Badge variant="brand" size="xs">{h.sector}</Badge></td>
                   </tr>
                 ))}
                 {holdings.length === 0 && (
                   <tr>
-                    <td colSpan="4" className="px-5 py-12 text-center text-surface-500 text-sm">
+                    <td colSpan="4" className="px-5 py-12 text-center text-surface-400 text-sm">
                       No holdings yet. <Link to="/trade" className="text-brand-400 hover:underline">Start trading</Link>
                     </td>
                   </tr>
@@ -162,7 +162,7 @@ const Dashboard = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
           className="card p-5"
         >
-          <h2 className="text-sm font-bold text-surface-200 mb-4">Sector Allocation</h2>
+          <h2 className="text-sm font-bold text-surface-800 mb-4">Sector Allocation</h2>
           {analytics?.sectorData && analytics.sectorData.length > 0 ? (
             <ResponsiveContainer width="100%" height={240}>
               <PieChart>
@@ -178,14 +178,14 @@ const Dashboard = () => {
               </PieChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-60 flex items-center justify-center text-sm text-surface-500">No allocation data</div>
+            <div className="h-60 flex items-center justify-center text-sm text-surface-400">No allocation data</div>
           )}
           <div className="space-y-2 mt-2">
             {analytics?.sectorData?.map((s, i) => (
               <div key={i} className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                  <span className="text-surface-300">{s.name}</span>
+                  <span className="text-surface-700">{s.name}</span>
                 </div>
                 <span className="font-mono text-surface-400">${s.value.toLocaleString()}</span>
               </div>
@@ -199,26 +199,26 @@ const Dashboard = () => {
         {/* Recent Transactions */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-surface-200">Recent Transactions</h2>
+            <h2 className="text-sm font-bold text-surface-800">Recent Transactions</h2>
             <Link to="/transactions" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
               View All <HiOutlineArrowRight className="w-3 h-3" />
             </Link>
           </div>
           <div className="space-y-3">
             {transactions.slice(0, 5).map((t) => (
-              <div key={t._id} className="flex items-center justify-between py-2 border-b border-surface-800/30 last:border-0">
+              <div key={t._id} className="flex items-center justify-between py-2 border-b border-surface-200/30 last:border-0">
                 <div className="flex items-center gap-3">
                   <Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge>
-                  <span className="text-sm font-semibold text-white">{t.symbol}</span>
+                  <span className="text-sm font-semibold text-surface-900">{t.symbol}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-mono text-surface-300">${t.price.toFixed(2)}</span>
-                  <span className="text-xs text-surface-500 ml-2">×{t.quantity}</span>
+                  <span className="text-sm font-mono text-surface-700">${t.price.toFixed(2)}</span>
+                  <span className="text-xs text-surface-400 ml-2">×{t.quantity}</span>
                 </div>
               </div>
             ))}
             {transactions.length === 0 && (
-              <p className="text-sm text-surface-500 text-center py-6">No transactions yet</p>
+              <p className="text-sm text-surface-400 text-center py-6">No transactions yet</p>
             )}
           </div>
         </motion.div>
@@ -226,7 +226,7 @@ const Dashboard = () => {
         {/* Watchlist Movers */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="card p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-bold text-surface-200">Watchlist</h2>
+            <h2 className="text-sm font-bold text-surface-800">Watchlist</h2>
             <Link to="/watchlist" className="text-xs text-brand-400 hover:text-brand-300 font-medium flex items-center gap-1">
               View All <HiOutlineArrowRight className="w-3 h-3" />
             </Link>
@@ -236,10 +236,10 @@ const Dashboard = () => {
               const isUp = item.change >= 0;
               return (
                 <Link key={item.symbol} to={`/market/${item.symbol}`}
-                  className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-surface-800/30 transition-colors">
-                  <span className="text-sm font-bold text-white">{item.symbol}</span>
+                  className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-surface-100/30 transition-colors">
+                  <span className="text-sm font-bold text-surface-900">{item.symbol}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-mono text-surface-300">${item.price?.toFixed(2)}</span>
+                    <span className="text-sm font-mono text-surface-700">${item.price?.toFixed(2)}</span>
                     <Badge variant={isUp ? 'gain' : 'loss'} size="xs">
                       {isUp ? '+' : ''}{item.percentChange?.toFixed(2)}%
                     </Badge>
@@ -248,7 +248,7 @@ const Dashboard = () => {
               );
             })}
             {watchlist.length === 0 && (
-              <p className="text-sm text-surface-500 text-center py-6">Add stocks to your watchlist</p>
+              <p className="text-sm text-surface-400 text-center py-6">Add stocks to your watchlist</p>
             )}
           </div>
         </motion.div>
@@ -259,10 +259,10 @@ const Dashboard = () => {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <HiOutlineSparkles className="w-4 h-4 text-brand-400" />
-              <h2 className="text-sm font-bold text-surface-200">AI Insights</h2>
+              <h2 className="text-sm font-bold text-surface-800">AI Insights</h2>
             </div>
             <div className="bg-brand-500/5 border border-brand-500/10 rounded-xl p-4">
-              <p className="text-sm text-surface-300 leading-relaxed">
+              <p className="text-sm text-surface-700 leading-relaxed">
                 {analytics?.recommendation || 'Generate AI insights for personalized portfolio advice.'}
               </p>
               <Link to="/ai-advisor" className="inline-flex items-center gap-1 text-xs text-brand-400 hover:text-brand-300 font-semibold mt-3">
@@ -273,7 +273,7 @@ const Dashboard = () => {
 
           {/* Market News */}
           <div>
-            <h3 className="text-sm font-bold text-surface-200 mb-3">Market News</h3>
+            <h3 className="text-sm font-bold text-surface-800 mb-3">Market News</h3>
             <div className="space-y-3">
               {news.slice(0, 3).map((n, i) => (
                 <a key={i} href={n.url} target="_blank" rel="noopener noreferrer"
@@ -281,7 +281,7 @@ const Dashboard = () => {
                   {n.headline}
                 </a>
               ))}
-              {news.length === 0 && <p className="text-xs text-surface-500">News loading...</p>}
+              {news.length === 0 && <p className="text-xs text-surface-400">News loading...</p>}
             </div>
           </div>
         </motion.div>
@@ -297,7 +297,7 @@ const Dashboard = () => {
             <HiOutlineShieldCheck className="w-5 h-5 text-loss" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-loss-light mb-1">Portfolio Risk Alert</h3>
+            <h3 className="text-sm font-bold text-loss mb-1">Portfolio Risk Alert</h3>
             <p className="text-sm text-surface-400">{analytics.recommendation}</p>
           </div>
         </motion.div>

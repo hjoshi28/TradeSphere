@@ -27,7 +27,7 @@ const AiAdvisor = () => {
         <button 
           onClick={fetchInsights} 
           disabled={loading}
-          className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-5 py-2 rounded-lg transition-colors disabled:opacity-40 shadow-sm cursor-pointer"
+          className="bg-purple-600 hover:bg-purple-700 text-surface-900 text-sm font-bold px-5 py-2 rounded-lg transition-colors disabled:opacity-40 shadow-sm cursor-pointer"
         >
           {loading ? "Analyzing..." : "Generate AI Audit"}
         </button>

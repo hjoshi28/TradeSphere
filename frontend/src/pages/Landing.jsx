@@ -29,14 +29,14 @@ const stats = [
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-surface-950 overflow-hidden">
+    <div className="min-h-screen bg-surface-50 overflow-hidden">
       {/* Navbar */}
       <nav className="relative z-10 flex items-center justify-between px-6 sm:px-10 lg:px-16 py-5">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
             <span className="text-base font-black text-white">T</span>
           </div>
-          <span className="text-xl font-bold text-white tracking-tight">TradeSphere</span>
+          <span className="text-xl font-bold text-surface-900 tracking-tight">TradeSphere</span>
         </div>
         <div className="flex items-center gap-3">
           <Link to="/login" className="btn-ghost text-sm">Sign In</Link>
@@ -63,7 +63,7 @@ const Landing = () => {
               AI-Powered Trading Simulator
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1] mb-6">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-surface-900 tracking-tight leading-[1.1] mb-6">
               Master Trading{' '}
               <span className="gradient-text">Without the Risk</span>
             </h1>
@@ -87,7 +87,7 @@ const Landing = () => {
       </section>
 
       {/* Stats */}
-      <section className="px-6 sm:px-10 lg:px-16 py-12 border-y border-surface-800/40">
+      <section className="px-6 sm:px-10 lg:px-16 py-12 border-y border-surface-200/40">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
             <motion.div
@@ -99,7 +99,7 @@ const Landing = () => {
               className="text-center"
             >
               <div className="text-3xl sm:text-4xl font-black gradient-text mb-1">{stat.value}</div>
-              <div className="text-sm text-surface-500 font-medium">{stat.label}</div>
+              <div className="text-sm text-surface-400 font-medium">{stat.label}</div>
             </motion.div>
           ))}
         </div>
@@ -114,7 +114,7 @@ const Landing = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Everything You Need to Trade Smarter</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-surface-900 mb-4">Everything You Need to Trade Smarter</h2>
             <p className="text-surface-400 text-lg max-w-xl mx-auto">Professional-grade tools wrapped in a beautiful, intuitive interface.</p>
           </motion.div>
 
@@ -131,7 +131,7 @@ const Landing = () => {
                 <div className="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-4 group-hover:bg-brand-500/15 transition-colors">
                   <feature.icon className="w-6 h-6 text-brand-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
+                <h3 className="text-lg font-bold text-surface-900 mb-2">{feature.title}</h3>
                 <p className="text-sm text-surface-400 leading-relaxed">{feature.desc}</p>
               </motion.div>
             ))}
@@ -144,7 +144,7 @@ const Landing = () => {
         <div className="max-w-3xl mx-auto text-center glass rounded-3xl p-12 sm:p-16 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent pointer-events-none" />
           <div className="relative">
-            <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to Start Trading?</h2>
+            <h2 className="text-3xl sm:text-4xl font-black text-surface-900 mb-4">Ready to Start Trading?</h2>
             <p className="text-surface-400 text-lg mb-8 max-w-md mx-auto">Join TradeSphere and practice with real market data and AI-powered insights.</p>
             <Link to="/signup" className="btn-primary text-base px-10 py-3.5 shadow-xl shadow-brand-500/20">
               Create Free Account
@@ -155,7 +155,7 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="px-6 sm:px-10 lg:px-16 py-8 border-t border-surface-800/40">
+      <footer className="px-6 sm:px-10 lg:px-16 py-8 border-t border-surface-200/40">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">

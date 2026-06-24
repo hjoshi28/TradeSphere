@@ -66,7 +66,7 @@ const WatchlistPanel = ({ onSelectStock }) => {
             placeholder="ADD SYMBOL (e.g. NVDA)" 
             value={newSymbol}
             onChange={(e) => setNewSymbol(e.target.value)}
-            className="w-full bg-black border border-zinc-800 p-3 rounded-lg text-sm font-bold tracking-wider text-white uppercase focus:outline-none focus:border-zinc-700 font-mono placeholder:normal-case placeholder:font-normal placeholder:text-zinc-600"
+            className="w-full bg-black border border-zinc-800 p-3 rounded-lg text-sm font-bold tracking-wider text-surface-900 uppercase focus:outline-none focus:border-zinc-700 font-mono placeholder:normal-case placeholder:font-normal placeholder:text-zinc-600"
           />
           <button 
             type="submit" 
@@ -93,7 +93,7 @@ const WatchlistPanel = ({ onSelectStock }) => {
                 className="flex justify-between items-center p-3.5 border border-zinc-900 bg-black/40 rounded-lg hover:bg-zinc-900/40 hover:border-zinc-800 transition-all cursor-pointer"
               >
                 <div className="flex items-center gap-4">
-                  <span className="font-bold text-sm font-mono text-white uppercase tracking-wider">{item.symbol}</span>
+                  <span className="font-bold text-sm font-mono text-surface-900 uppercase tracking-wider">{item.symbol}</span>
                   <span className={`text-xs font-mono font-bold ${isUp ? 'text-purple-400' : 'text-pink-400'}`}>
                     {isUp ? '+' : ''}{item.percentChange.toFixed(2)}%
                   </span>

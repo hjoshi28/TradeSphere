@@ -87,7 +87,7 @@ const TradingSimulator = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Trade Terminal</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">Trade Terminal</h1>
         <p className="text-sm text-surface-400">Execute simulated trades with real-time market prices</p>
       </motion.div>
 
@@ -95,8 +95,8 @@ const TradingSimulator = () => {
         {/* Order Form */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="card p-6 space-y-5">
-          <div className="flex items-center justify-between pb-4 border-b border-surface-800/60">
-            <h2 className="text-sm font-bold text-surface-200 flex items-center gap-2">
+          <div className="flex items-center justify-between pb-4 border-b border-surface-200/60">
+            <h2 className="text-sm font-bold text-surface-800 flex items-center gap-2">
               <HiOutlineBolt className="w-4 h-4 text-brand-400" /> Order Terminal
             </h2>
             <Badge variant="brand" size="xs">Simulated</Badge>
@@ -111,14 +111,14 @@ const TradingSimulator = () => {
           </div>
 
           {/* Price Display */}
-          <div className="bg-surface-950/80 border border-surface-800/60 rounded-xl p-4 text-center">
-            <span className="text-xs uppercase text-surface-500 block mb-1">Market Price</span>
-            <span className="text-3xl font-bold font-mono text-white">${livePrice ? livePrice.toFixed(2) : '0.00'}</span>
+          <div className="bg-surface-50/80 border border-surface-200/60 rounded-xl p-4 text-center">
+            <span className="text-xs uppercase text-surface-400 block mb-1">Market Price</span>
+            <span className="text-3xl font-bold font-mono text-surface-900">${livePrice ? livePrice.toFixed(2) : '0.00'}</span>
             {quoteData.high && (
-              <div className="flex justify-center gap-4 mt-2 text-xs text-surface-500">
+              <div className="flex justify-center gap-4 mt-2 text-xs text-surface-400">
                 <span>H: <span className="text-gain font-mono">${quoteData.high?.toFixed(2)}</span></span>
                 <span>L: <span className="text-loss font-mono">${quoteData.low?.toFixed(2)}</span></span>
-                <span>PC: <span className="font-mono text-surface-300">${quoteData.previousClose?.toFixed(2)}</span></span>
+                <span>PC: <span className="font-mono text-surface-700">${quoteData.previousClose?.toFixed(2)}</span></span>
               </div>
             )}
           </div>
@@ -126,14 +126,14 @@ const TradingSimulator = () => {
           {/* Buy/Sell Toggle */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-surface-400 mb-2">Action</label>
-            <div className="grid grid-cols-2 gap-2 bg-surface-950/80 p-1 rounded-xl border border-surface-800/60">
+            <div className="grid grid-cols-2 gap-2 bg-surface-50/80 p-1 rounded-xl border border-surface-200/60">
               <button type="button" onClick={() => setTradeType('BUY')}
                 className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
-                  tradeType === 'BUY' ? 'bg-gain/10 text-gain border border-gain/20' : 'text-surface-500 border border-transparent'
+                  tradeType === 'BUY' ? 'bg-gain/10 text-gain border border-gain/20' : 'text-surface-400 border border-transparent'
                 }`}>BUY</button>
               <button type="button" onClick={() => setTradeType('SELL')}
                 className={`py-2.5 rounded-lg text-sm font-bold transition-all cursor-pointer ${
-                  tradeType === 'SELL' ? 'bg-loss/10 text-loss border border-loss/20' : 'text-surface-500 border border-transparent'
+                  tradeType === 'SELL' ? 'bg-loss/10 text-loss border border-loss/20' : 'text-surface-400 border border-transparent'
                 }`}>SELL</button>
             </div>
           </div>
@@ -149,16 +149,16 @@ const TradingSimulator = () => {
           {currentHolding && (
             <div className="bg-brand-500/5 border border-brand-500/10 rounded-xl p-3 text-xs">
               <span className="text-surface-400">Current Position: </span>
-              <span className="font-bold text-white">{currentHolding.quantity} shares</span>
-              <span className="text-surface-500 ml-2">@ ${currentHolding.avgPrice.toFixed(2)} avg</span>
+              <span className="font-bold text-surface-900">{currentHolding.quantity} shares</span>
+              <span className="text-surface-400 ml-2">@ ${currentHolding.avgPrice.toFixed(2)} avg</span>
             </div>
           )}
 
           {/* Total + Submit */}
-          <div className="pt-4 border-t border-surface-800/60 space-y-3">
+          <div className="pt-4 border-t border-surface-200/60 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Estimated Total</span>
-              <span className="font-bold font-mono text-white text-lg">${totalCost}</span>
+              <span className="font-bold font-mono text-surface-900 text-lg">${totalCost}</span>
             </div>
             <button onClick={() => setShowPreview(true)} disabled={!livePrice || quantity < 1}
               className={`w-full py-3.5 rounded-xl text-sm font-bold transition-all cursor-pointer ${
@@ -174,11 +174,11 @@ const TradingSimulator = () => {
         {/* Watchlist */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="card p-5 max-h-[650px] flex flex-col">
-          <div className="flex items-center justify-between mb-4 pb-3 border-b border-surface-800/60">
-            <h2 className="text-sm font-bold text-surface-200 flex items-center gap-2">
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-surface-200/60">
+            <h2 className="text-sm font-bold text-surface-800 flex items-center gap-2">
               <HiOutlineStar className="w-4 h-4 text-brand-400" /> Watchlist
             </h2>
-            <span className="text-xs text-surface-500">{watchlist.length} stocks</span>
+            <span className="text-xs text-surface-400">{watchlist.length} stocks</span>
           </div>
           <div className="space-y-1.5 overflow-y-auto flex-1">
             {watchlist.map((item) => {
@@ -186,20 +186,20 @@ const TradingSimulator = () => {
               return (
                 <button key={item.symbol} onClick={() => handleWatchlistSelect(item.symbol)}
                   className={`w-full flex items-center justify-between p-3 rounded-xl transition-all cursor-pointer text-left ${
-                    activeSymbol === item.symbol ? 'bg-brand-500/10 border border-brand-500/20' : 'hover:bg-surface-800/30 border border-transparent'
+                    activeSymbol === item.symbol ? 'bg-brand-500/10 border border-brand-500/20' : 'hover:bg-surface-100/30 border border-transparent'
                   }`}>
                   <div className="flex items-center gap-3">
-                    <span className="font-bold text-sm text-white font-mono">{item.symbol}</span>
+                    <span className="font-bold text-sm text-surface-900 font-mono">{item.symbol}</span>
                     <Badge variant={isUp ? 'gain' : 'loss'} size="xs">
                       {isUp ? '+' : ''}{item.percentChange?.toFixed(2)}%
                     </Badge>
                   </div>
-                  <span className="font-mono text-sm font-semibold text-surface-300">${item.price?.toFixed(2)}</span>
+                  <span className="font-mono text-sm font-semibold text-surface-700">${item.price?.toFixed(2)}</span>
                 </button>
               );
             })}
             {watchlist.length === 0 && (
-              <p className="text-xs text-surface-500 text-center py-8">No watchlist items. Add from Market page.</p>
+              <p className="text-xs text-surface-400 text-center py-8">No watchlist items. Add from Market page.</p>
             )}
           </div>
         </motion.div>
@@ -207,12 +207,12 @@ const TradingSimulator = () => {
         {/* Order History */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
           className="card overflow-hidden max-h-[650px] flex flex-col">
-          <div className="px-5 py-4 border-b border-surface-800/60">
-            <h2 className="text-sm font-bold text-surface-200">Recent Orders</h2>
+          <div className="px-5 py-4 border-b border-surface-200/60">
+            <h2 className="text-sm font-bold text-surface-800">Recent Orders</h2>
           </div>
           <div className="overflow-y-auto flex-1">
             <table className="w-full text-left text-sm">
-              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40 sticky top-0">
+              <thead className="bg-white/50 text-surface-400 border-b border-surface-200/40 sticky top-0">
                 <tr>
                   <th className="px-4 py-2.5 text-xs font-semibold uppercase">Type</th>
                   <th className="px-4 py-2.5 text-xs font-semibold uppercase">Symbol</th>
@@ -220,17 +220,17 @@ const TradingSimulator = () => {
                   <th className="px-4 py-2.5 text-xs font-semibold uppercase text-right">Price</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-800/40">
+              <tbody className="divide-y divide-surface-200/40">
                 {transactions.slice(0, 15).map(t => (
-                  <tr key={t._id} className="hover:bg-surface-800/20 transition-colors">
+                  <tr key={t._id} className="hover:bg-surface-100/20 transition-colors">
                     <td className="px-4 py-2.5"><Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge></td>
-                    <td className="px-4 py-2.5 font-bold text-white font-mono text-xs">{t.symbol}</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-surface-300 text-xs">{t.quantity}</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-surface-300 text-xs">${t.price.toFixed(2)}</td>
+                    <td className="px-4 py-2.5 font-bold text-surface-900 font-mono text-xs">{t.symbol}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-surface-700 text-xs">{t.quantity}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-surface-700 text-xs">${t.price.toFixed(2)}</td>
                   </tr>
                 ))}
                 {transactions.length === 0 && (
-                  <tr><td colSpan="4" className="px-4 py-12 text-center text-surface-500 text-sm">No orders yet</td></tr>
+                  <tr><td colSpan="4" className="px-4 py-12 text-center text-surface-400 text-sm">No orders yet</td></tr>
                 )}
               </tbody>
             </table>
@@ -241,26 +241,26 @@ const TradingSimulator = () => {
       {/* Preview Modal */}
       <Modal isOpen={showPreview} onClose={() => setShowPreview(false)} title="Order Preview" size="sm">
         <div className="space-y-4">
-          <div className="bg-surface-900/80 rounded-xl p-4 space-y-3">
+          <div className="bg-white/80 rounded-xl p-4 space-y-3">
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Action</span>
               <Badge variant={tradeType === 'BUY' ? 'gain' : 'loss'}>{tradeType}</Badge>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Symbol</span>
-              <span className="font-bold text-white font-mono">{activeSymbol}</span>
+              <span className="font-bold text-surface-900 font-mono">{activeSymbol}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Quantity</span>
-              <span className="font-mono text-white">{quantity}</span>
+              <span className="font-mono text-surface-900">{quantity}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-surface-400">Price</span>
-              <span className="font-mono text-white">${livePrice?.toFixed(2)}</span>
+              <span className="font-mono text-surface-900">${livePrice?.toFixed(2)}</span>
             </div>
-            <div className="pt-3 border-t border-surface-700/40 flex justify-between text-sm">
-              <span className="font-semibold text-surface-300">Total</span>
-              <span className="font-bold font-mono text-white text-lg">${totalCost}</span>
+            <div className="pt-3 border-t border-surface-300/40 flex justify-between text-sm">
+              <span className="font-semibold text-surface-700">Total</span>
+              <span className="font-bold font-mono text-surface-900 text-lg">${totalCost}</span>
             </div>
           </div>
           <div className="flex gap-3">

@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
       isActive
         ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
-        : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 border border-transparent'
+        : 'text-surface-400 hover:text-surface-200 hover:bg-surface-100/50 border border-transparent'
     }`;
 
   const SidebarContent = () => (
@@ -57,9 +57,9 @@ const Sidebar = ({ isOpen, onClose }) => {
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/20">
             <span className="text-sm font-black text-white">T</span>
           </div>
-          <span className="text-lg font-bold text-white tracking-tight">TradeSphere</span>
+          <span className="text-lg font-bold text-surface-900 tracking-tight">TradeSphere</span>
         </NavLink>
-        <button onClick={onClose} className="lg:hidden w-8 h-8 rounded-lg bg-surface-800/50 flex items-center justify-center text-surface-400 hover:text-white cursor-pointer">
+        <button onClick={onClose} className="lg:hidden w-8 h-8 rounded-lg bg-surface-50/50 flex items-center justify-center text-surface-400 hover:text-surface-800 cursor-pointer">
           <HiXMark className="w-4 h-4" />
         </button>
       </div>
@@ -88,16 +88,16 @@ const Sidebar = ({ isOpen, onClose }) => {
       </nav>
 
       {/* User section */}
-      <div className="p-3 border-t border-surface-800/60">
-        <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-surface-800/30">
+      <div className="p-3 border-t border-surface-200/60">
+        <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-surface-50/30">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
             {(user?.name || 'U')[0].toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-surface-200 truncate">{user?.name || 'User'}</p>
-            <p className="text-xs text-surface-500 truncate">{user?.email || ''}</p>
+            <p className="text-sm font-semibold text-surface-800 truncate">{user?.name || 'User'}</p>
+            <p className="text-xs text-surface-400 truncate">{user?.email || ''}</p>
           </div>
-          <button onClick={handleLogout} className="w-8 h-8 rounded-lg hover:bg-surface-700/50 flex items-center justify-center text-surface-500 hover:text-loss transition-colors cursor-pointer" title="Sign Out">
+          <button onClick={handleLogout} className="w-8 h-8 rounded-lg hover:bg-surface-700/50 flex items-center justify-center text-surface-400 hover:text-loss transition-colors cursor-pointer" title="Sign Out">
             <HiOutlineArrowRightOnRectangle className="w-4 h-4" />
           </button>
         </div>
@@ -108,7 +108,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-surface-950/80 border-r border-surface-800/40 z-30">
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-surface-50/80 border-r border-surface-200/40 z-30">
         <SidebarContent />
       </aside>
 
@@ -128,7 +128,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-72 bg-surface-950 border-r border-surface-800/40 z-50 lg:hidden"
+              className="fixed inset-y-0 left-0 w-72 bg-surface-50 border-r border-surface-200/40 z-50 lg:hidden"
             >
               <SidebarContent />
             </motion.aside>

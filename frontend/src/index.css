@@ -3,46 +3,13 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════
-   TradeSphere v2 – Design System
+   TradeSphere v2 – Soft Green Finance Theme
    ═══════════════════════════════════════════ */
 
 @layer base {
-  :root {
-    --color-white: 74 4 78;
-    --surface-50: 253 244 255;
-    --surface-100: 250 232 255;
-    --surface-200: 59 7 100;
-    --surface-300: 74 4 78;
-    --surface-400: 134 25 143;
-    --surface-500: 162 28 175;
-    --surface-600: 192 38 211;
-    --surface-700: 232 121 249;
-    --surface-800: 250 232 255;
-    --surface-850: 253 244 255;
-    --surface-900: 74 4 78;
-    --surface-950: 255 255 255;
-  }
-
-  .card,
-  .glass,
-  .bg-surface-900,
-  .bg-brand-500,
-  .bg-brand-600 {
-    --color-white: 255 255 255;
-    --surface-200: 255 255 255;
-    --surface-300: 253 244 255;
-    --surface-400: 250 232 255;
-    --surface-500: 245 208 254;
-    --surface-600: 240 171 252;
-    --surface-700: 232 121 249;
-    --surface-800: 112 26 117;
-    --surface-900: 74 4 78;
-    --surface-950: 59 7 100;
-  }
-
   * {
     scrollbar-width: thin;
-    scrollbar-color: #e879f9 #ffffff;
+    scrollbar-color: #d1d5db #f9fafb;
   }
 
   *::-webkit-scrollbar {
@@ -51,53 +18,51 @@
   }
 
   *::-webkit-scrollbar-track {
-    background: #ffffff;
+    background: #f9fafb;
   }
 
   *::-webkit-scrollbar-thumb {
-    background: #e879f9;
+    background: #d1d5db;
     border-radius: 3px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
-    background: #d946ef;
+    background: #9ca3af;
   }
 
   body {
     margin: 0;
-    background-color: rgb(var(--surface-950));
-    color: rgb(var(--color-white));
+    background-color: #f9fafb;
+    color: #1f2937;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background: rgba(217, 70, 239, 0.3);
-    color: #4a044e;
+    background: rgba(34, 197, 94, 0.2);
+    color: #14532d;
   }
 }
 
-
-
 @layer components {
 
-  /* Glassmorphism Card */
+  /* Simplified Glass (No heavy gradients, just light blur) */
   .glass {
-    background: linear-gradient(135deg, rgba(var(--surface-900) / 0.9) 0%, rgba(var(--surface-900) / 0.7) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(229, 231, 235, 0.5);
   }
 
   .glass-hover:hover {
-    background: linear-gradient(135deg, rgba(var(--surface-900) / 0.95) 0%, rgba(var(--surface-900) / 0.8) 100%);
-    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(229, 231, 235, 0.8);
   }
 
   /* Surface cards */
   .card {
-    @apply bg-surface-900/80 border border-surface-800/60 rounded-2xl;
+    @apply bg-white border border-surface-200 rounded-2xl shadow-sm;
   }
 
   .card-hover {
@@ -105,69 +70,69 @@
   }
 
   .card-hover:hover {
-    @apply border-surface-700/60 shadow-lg shadow-brand-500/5;
+    @apply border-surface-300 shadow-md;
     transform: translateY(-1px);
   }
 
-  /* Gradient text */
+  /* Gradient text removed, replaced with solid brand primary text */
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-400 via-brand-300 to-cyan-400;
+    @apply text-brand-700;
   }
 
   /* Shimmer loading skeleton */
   .skeleton {
-    @apply relative overflow-hidden bg-surface-800/50 rounded-lg;
+    @apply relative overflow-hidden bg-surface-100 rounded-lg;
   }
 
   .skeleton::after {
     content: '';
     @apply absolute inset-0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
     background-size: 200% 100%;
     animation: shimmer 2s infinite linear;
   }
 
-  /* Glow effect for brand elements */
+  /* Subtly glow effects (No neon glows) */
   .glow-brand {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15), 0 0 60px rgba(99, 102, 241, 0.05);
+    box-shadow: 0 4px 14px 0 rgba(34, 197, 94, 0.15);
   }
 
   .glow-gain {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 4px 14px 0 rgba(22, 163, 74, 0.15);
   }
 
   .glow-loss {
-    box-shadow: 0 0 20px rgba(239, 68, 68, 0.15);
+    box-shadow: 0 4px 14px 0 rgba(220, 38, 38, 0.15);
   }
 
   /* Input styles */
   .input-base {
-    @apply w-full bg-surface-950/80 border border-surface-700/50 px-4 py-3 rounded-xl text-white text-sm placeholder:text-surface-500 focus:outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all duration-200;
+    @apply w-full bg-white border border-surface-300 px-4 py-3 rounded-xl text-surface-800 text-sm placeholder:text-surface-400 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500/20 transition-all duration-200 shadow-sm;
   }
 
   /* Button base */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-primary {
-    @apply btn bg-brand-600 hover:bg-brand-500 text-white border border-brand-500/20 shadow-lg shadow-brand-500/20 hover:shadow-brand-500/30;
+    @apply btn bg-brand-700 hover:bg-brand-600 text-[#ffffff] border border-brand-800/10 shadow-sm;
   }
 
   .btn-secondary {
-    @apply btn bg-surface-800/80 hover:bg-surface-700/80 text-surface-200 border border-surface-700/50;
+    @apply btn bg-surface-50 hover:bg-surface-100 text-surface-800 border border-surface-200 shadow-sm;
   }
 
   .btn-danger {
-    @apply btn bg-loss/10 hover:bg-loss/20 text-loss-light border border-loss/20;
+    @apply btn bg-loss hover:bg-loss-dark text-[#ffffff] border border-loss-dark/10 shadow-sm;
   }
 
   .btn-ghost {
-    @apply btn bg-transparent hover:bg-surface-800/50 text-surface-400 hover:text-surface-200;
+    @apply btn bg-transparent hover:bg-surface-100 text-surface-600 hover:text-surface-800;
   }
 
   .btn-gain {
-    @apply btn bg-gain/10 hover:bg-gain/20 text-gain-light border border-gain/20;
+    @apply btn bg-gain hover:bg-gain-dark text-[#ffffff] border border-gain-dark/10 shadow-sm;
   }
 }
 

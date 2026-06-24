@@ -59,7 +59,7 @@ const Analytics = () => {
   return (
     <div className="max-w-7xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Analytics</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">Analytics</h1>
         <p className="text-sm text-surface-400">Deep dive into your trading performance</p>
       </motion.div>
 
@@ -67,7 +67,7 @@ const Analytics = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Portfolio Value</span>
-          <p className="text-xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined,{minimumFractionDigits:2})}</p>
+          <p className="text-xl font-bold text-surface-900 font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined,{minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Net P/L</span>
@@ -77,7 +77,7 @@ const Analytics = () => {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Trades</span>
-          <p className="text-xl font-bold text-white mt-1">{transactions.length}</p>
+          <p className="text-xl font-bold text-surface-900 mt-1">{transactions.length}</p>
           <div className="flex gap-2 mt-1">
             <Badge variant="gain" size="xs">{totalBuys} buys</Badge>
             <Badge variant="loss" size="xs">{totalSells} sells</Badge>
@@ -86,7 +86,7 @@ const Analytics = () => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Health Score</span>
           <div className="flex items-center gap-3 mt-1">
-            <p className="text-xl font-bold text-white">{analytics?.healthScore || 0}/100</p>
+            <p className="text-xl font-bold text-surface-900">{analytics?.healthScore || 0}/100</p>
             <Badge variant={analytics?.healthScore >= 70 ? 'gain' : analytics?.healthScore >= 40 ? 'warning' : 'loss'} size="xs">
               {analytics?.healthScore >= 70 ? 'Good' : analytics?.healthScore >= 40 ? 'Fair' : 'Risk'}
             </Badge>
@@ -97,7 +97,7 @@ const Analytics = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Sector Allocation */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card p-5">
-          <h2 className="text-sm font-bold text-surface-200 mb-4">Sector Allocation</h2>
+          <h2 className="text-sm font-bold text-surface-800 mb-4">Sector Allocation</h2>
           {analytics?.sectorData?.length > 0 ? (
             <>
               <ResponsiveContainer width="100%" height={250}>
@@ -116,23 +116,23 @@ const Analytics = () => {
                     <div key={i} className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
                         <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                        <span className="text-surface-300">{s.name}</span>
+                        <span className="text-surface-700">{s.name}</span>
                       </div>
                       <div className="flex items-center gap-3">
                         <span className="font-mono text-surface-400">{pct}%</span>
-                        <span className="font-mono text-white">${s.value.toLocaleString()}</span>
+                        <span className="font-mono text-surface-900">${s.value.toLocaleString()}</span>
                       </div>
                     </div>
                   );
                 })}
               </div>
             </>
-          ) : <div className="h-64 flex items-center justify-center text-sm text-surface-500">No allocation data</div>}
+          ) : <div className="h-64 flex items-center justify-center text-sm text-surface-400">No allocation data</div>}
         </motion.div>
 
         {/* Holdings Bar */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="card p-5">
-          <h2 className="text-sm font-bold text-surface-200 mb-4">Holdings Breakdown</h2>
+          <h2 className="text-sm font-bold text-surface-800 mb-4">Holdings Breakdown</h2>
           {holdingValues.length > 0 ? (
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={holdingValues}>
@@ -144,12 +144,12 @@ const Analytics = () => {
                 <Bar dataKey="value" fill="#6366f1" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-          ) : <div className="h-72 flex items-center justify-center text-sm text-surface-500">No holdings</div>}
+          ) : <div className="h-72 flex items-center justify-center text-sm text-surface-400">No holdings</div>}
         </motion.div>
 
         {/* Trading Activity */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="card p-5">
-          <h2 className="text-sm font-bold text-surface-200 mb-4">Trading Activity</h2>
+          <h2 className="text-sm font-bold text-surface-800 mb-4">Trading Activity</h2>
           {activityData.length > 0 ? (
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={activityData}>
@@ -161,12 +161,12 @@ const Analytics = () => {
                 <Bar dataKey="sells" fill="#ef4444" name="Sells" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-          ) : <div className="h-64 flex items-center justify-center text-sm text-surface-500">No trading activity</div>}
+          ) : <div className="h-64 flex items-center justify-center text-sm text-surface-400">No trading activity</div>}
         </motion.div>
 
         {/* Risk Analysis */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="card p-5">
-          <h2 className="text-sm font-bold text-surface-200 mb-4">Risk Assessment</h2>
+          <h2 className="text-sm font-bold text-surface-800 mb-4">Risk Assessment</h2>
           <div className="flex items-center gap-6 mb-6">
             <div className={`w-24 h-24 rounded-full border-4 flex items-center justify-center text-2xl font-black ${
               analytics?.healthScore >= 70 ? 'text-gain border-gain' :
@@ -175,7 +175,7 @@ const Analytics = () => {
               {analytics?.healthScore || 0}
             </div>
             <div>
-              <h3 className="text-base font-bold text-white mb-1">Diversification Health</h3>
+              <h3 className="text-base font-bold text-surface-900 mb-1">Diversification Health</h3>
               <p className="text-sm text-surface-400 leading-relaxed">{analytics?.recommendation || 'No analysis available.'}</p>
             </div>
           </div>
@@ -183,11 +183,11 @@ const Analytics = () => {
           {/* Allocation table */}
           <div className="space-y-2">
             {plByStock.map((h, i) => (
-              <div key={i} className="flex items-center justify-between text-sm py-2 border-b border-surface-800/30 last:border-0">
-                <span className="font-bold text-white font-mono">{h.name}</span>
+              <div key={i} className="flex items-center justify-between text-sm py-2 border-b border-surface-200/30 last:border-0">
+                <span className="font-bold text-surface-900 font-mono">{h.name}</span>
                 <div className="flex items-center gap-4">
                   <span className="text-surface-400 text-xs">{h.allocation}%</span>
-                  <div className="w-24 h-1.5 bg-surface-800 rounded-full overflow-hidden">
+                  <div className="w-24 h-1.5 bg-surface-50 rounded-full overflow-hidden">
                     <div className="h-full bg-brand-500 rounded-full" style={{ width: `${h.allocation}%` }} />
                   </div>
                 </div>

@@ -35,7 +35,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-950 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-50 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-brand-500/5 rounded-full blur-[120px]" />
@@ -54,9 +54,9 @@ const Login = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
               <span className="text-lg font-black text-white">T</span>
             </div>
-            <span className="text-2xl font-bold text-white">TradeSphere</span>
+            <span className="text-2xl font-bold text-surface-900">TradeSphere</span>
           </Link>
-          <h1 className="text-2xl font-bold text-white mb-2">Welcome back</h1>
+          <h1 className="text-2xl font-bold text-surface-900 mb-2">Welcome back</h1>
           <p className="text-sm text-surface-400">Sign in to access your trading dashboard</p>
         </div>
 
@@ -65,7 +65,7 @@ const Login = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-3.5 rounded-xl bg-loss/10 border border-loss/20 text-sm text-loss-light"
+              className="p-3.5 rounded-xl bg-loss/10 border border-loss/20 text-sm text-loss"
             >
               {error}
             </motion.div>
@@ -97,7 +97,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-500 hover:text-surface-300 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-300 cursor-pointer"
               >
                 {showPassword ? <HiOutlineEyeSlash className="w-4 h-4" /> : <HiOutlineEye className="w-4 h-4" />}
               </button>
@@ -110,7 +110,7 @@ const Login = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={e => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-surface-700 bg-surface-900 text-brand-500 focus:ring-brand-500/20 cursor-pointer"
+                className="w-4 h-4 rounded border-surface-300 bg-white text-brand-500 focus:ring-brand-500/20 cursor-pointer"
               />
               <span className="text-sm text-surface-400">Remember me</span>
             </label>
@@ -133,7 +133,7 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="text-center text-sm text-surface-500 mt-6">
+        <p className="text-center text-sm text-surface-400 mt-6">
           Don't have an account?{' '}
           <Link to="/signup" className="text-brand-400 hover:text-brand-300 font-semibold">Create one</Link>
         </p>

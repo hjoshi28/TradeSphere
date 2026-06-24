@@ -49,11 +49,11 @@ const StockDetail = () => {
         className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl sm:text-4xl font-bold text-white font-mono">{symbol}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-surface-900 font-mono">{symbol}</h1>
             {profile?.name && <span className="text-surface-400 text-sm">{profile.name}</span>}
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-4xl font-bold font-mono text-white">${quote?.price?.toFixed(2) || '—'}</span>
+            <span className="text-4xl font-bold font-mono text-surface-900">${quote?.price?.toFixed(2) || '—'}</span>
             <div className="flex items-center gap-1">
               {isUp ? <HiOutlineArrowTrendingUp className="w-5 h-5 text-gain" /> : <HiOutlineArrowTrendingDown className="w-5 h-5 text-loss" />}
               <Badge variant={isUp ? 'gain' : 'loss'} size="md">
@@ -85,11 +85,11 @@ const StockDetail = () => {
           </div>
           <div className="card p-4">
             <span className="text-xs font-semibold uppercase text-surface-400">Open</span>
-            <p className="text-lg font-bold font-mono text-white mt-1">${quote?.previousClose?.toFixed(2) || '—'}</p>
+            <p className="text-lg font-bold font-mono text-surface-900 mt-1">${quote?.previousClose?.toFixed(2) || '—'}</p>
           </div>
           <div className="card p-4">
             <span className="text-xs font-semibold uppercase text-surface-400">Prev Close</span>
-            <p className="text-lg font-bold font-mono text-white mt-1">${quote?.previousClose?.toFixed(2) || '—'}</p>
+            <p className="text-lg font-bold font-mono text-surface-900 mt-1">${quote?.previousClose?.toFixed(2) || '—'}</p>
           </div>
         </div>
       </motion.div>
@@ -98,25 +98,25 @@ const StockDetail = () => {
       {profile && (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="card p-6">
-          <h2 className="text-lg font-bold text-white mb-4">About {profile.name || symbol}</h2>
+          <h2 className="text-lg font-bold text-surface-900 mb-4">About {profile.name || symbol}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             {profile.finnhubIndustry && (
-              <div><span className="text-surface-400">Industry:</span> <span className="text-white ml-2">{profile.finnhubIndustry}</span></div>
+              <div><span className="text-surface-400">Industry:</span> <span className="text-surface-900 ml-2">{profile.finnhubIndustry}</span></div>
             )}
             {profile.country && (
-              <div><span className="text-surface-400">Country:</span> <span className="text-white ml-2">{profile.country}</span></div>
+              <div><span className="text-surface-400">Country:</span> <span className="text-surface-900 ml-2">{profile.country}</span></div>
             )}
             {profile.exchange && (
-              <div><span className="text-surface-400">Exchange:</span> <span className="text-white ml-2">{profile.exchange}</span></div>
+              <div><span className="text-surface-400">Exchange:</span> <span className="text-surface-900 ml-2">{profile.exchange}</span></div>
             )}
             {profile.marketCapitalization && (
-              <div><span className="text-surface-400">Market Cap:</span> <span className="text-white ml-2">${(profile.marketCapitalization).toLocaleString()}M</span></div>
+              <div><span className="text-surface-400">Market Cap:</span> <span className="text-surface-900 ml-2">${(profile.marketCapitalization).toLocaleString()}M</span></div>
             )}
             {profile.weburl && (
               <div><span className="text-surface-400">Website:</span> <a href={profile.weburl} target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:text-brand-300 ml-2">{profile.weburl}</a></div>
             )}
             {profile.ipo && (
-              <div><span className="text-surface-400">IPO Date:</span> <span className="text-white ml-2">{profile.ipo}</span></div>
+              <div><span className="text-surface-400">IPO Date:</span> <span className="text-surface-900 ml-2">{profile.ipo}</span></div>
             )}
           </div>
         </motion.div>
@@ -125,7 +125,7 @@ const StockDetail = () => {
       {/* Quick Actions */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
         className="glass rounded-2xl p-6 text-center">
-        <h3 className="text-lg font-bold text-white mb-2">Ready to trade {symbol}?</h3>
+        <h3 className="text-lg font-bold text-surface-900 mb-2">Ready to trade {symbol}?</h3>
         <p className="text-sm text-surface-400 mb-4">Open the trading terminal to execute a buy or sell order.</p>
         <Link to={`/trade?symbol=${symbol}`} className="btn-primary">
           <HiOutlineBolt className="w-4 h-4" /> Open Trade Terminal

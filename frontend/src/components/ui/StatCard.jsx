@@ -6,7 +6,7 @@ const StatCard = ({ title, value, change, changeType = 'neutral', icon: Icon, pr
   const changeColors = {
     gain: 'text-gain bg-gain-bg',
     loss: 'text-loss bg-loss-bg',
-    neutral: 'text-surface-400 bg-surface-800/50',
+    neutral: 'text-surface-400 bg-surface-50/50',
   };
 
   return (
@@ -25,7 +25,7 @@ const StatCard = ({ title, value, change, changeType = 'neutral', icon: Icon, pr
         )}
       </div>
       <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-        <span className="text-2xl font-bold text-white font-mono tracking-tight">
+        <span className="text-2xl font-bold text-surface-900 font-mono tracking-tight">
           {prefix}{typeof value === 'number' ? value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : value}{suffix}
         </span>
         {change !== undefined && change !== null && (

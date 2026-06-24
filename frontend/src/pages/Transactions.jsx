@@ -40,7 +40,7 @@ const Transactions = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Transactions</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">Transactions</h1>
         <p className="text-sm text-surface-400">Your complete trading history</p>
       </motion.div>
 
@@ -48,7 +48,7 @@ const Transactions = () => {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Trades</span>
-          <p className="text-2xl font-bold text-white mt-1">{transactions.length}</p>
+          <p className="text-2xl font-bold text-surface-900 mt-1">{transactions.length}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Buys</span>
@@ -60,7 +60,7 @@ const Transactions = () => {
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Most Traded</span>
-          <p className="text-2xl font-bold text-white font-mono mt-1">{topSymbol || '—'}</p>
+          <p className="text-2xl font-bold text-surface-900 font-mono mt-1">{topSymbol || '—'}</p>
         </motion.div>
       </div>
 
@@ -72,7 +72,7 @@ const Transactions = () => {
         <div className="flex gap-2">
           {['ALL','BUY','SELL'].map(f => (
             <button key={f} onClick={() => setFilterType(f)}
-              className={`btn text-xs ${filterType === f ? 'bg-brand-500/10 text-brand-400 border-brand-500/20' : 'bg-surface-800/50 text-surface-400 border-surface-700/30'} border`}>
+              className={`btn text-xs ${filterType === f ? 'bg-brand-500/10 text-brand-400 border-brand-500/20' : 'bg-surface-50/50 text-surface-400 border-surface-300/30'} border`}>
               {f}
             </button>
           ))}
@@ -88,7 +88,7 @@ const Transactions = () => {
           className="card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40">
+              <thead className="bg-white/50 text-surface-400 border-b border-surface-200/40">
                 <tr>
                   <th className="px-5 py-3 text-xs font-semibold uppercase">Date</th>
                   <th className="px-5 py-3 text-xs font-semibold uppercase">Type</th>
@@ -98,15 +98,15 @@ const Transactions = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase text-right">Total</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-800/40">
+              <tbody className="divide-y divide-surface-200/40">
                 {filtered.map(t => (
-                  <tr key={t._id} className="hover:bg-surface-800/20 transition-colors">
+                  <tr key={t._id} className="hover:bg-surface-100/20 transition-colors">
                     <td className="px-5 py-3.5 text-xs text-surface-400 font-mono">{format(new Date(t.createdAt), 'MMM dd, yyyy HH:mm')}</td>
                     <td className="px-5 py-3.5"><Badge variant={t.type === 'BUY' ? 'gain' : 'loss'} size="xs">{t.type}</Badge></td>
-                    <td className="px-5 py-3.5 font-bold text-white font-mono">{t.symbol}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">{t.quantity}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">${t.price.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right font-mono font-semibold text-white">${t.totalAmount.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
+                    <td className="px-5 py-3.5 font-bold text-surface-900 font-mono">{t.symbol}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">{t.quantity}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">${t.price.toFixed(2)}</td>
+                    <td className="px-5 py-3.5 text-right font-mono font-semibold text-surface-900">${t.totalAmount.toLocaleString(undefined,{minimumFractionDigits:2})}</td>
                   </tr>
                 ))}
               </tbody>

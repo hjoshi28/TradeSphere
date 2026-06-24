@@ -2,10 +2,10 @@ import React from 'react';
 
 const Badge = ({ children, variant = 'default', size = 'sm', className = '' }) => {
   const variants = {
-    default: 'bg-surface-800/80 text-surface-300 border-surface-700/50',
+    default: 'bg-surface-50/80 text-surface-700 border-surface-300/50',
     brand: 'bg-brand-500/10 text-brand-400 border-brand-500/20',
     gain: 'bg-gain/10 text-gain border-gain/20',
-    loss: 'bg-loss/10 text-loss-light border-loss/20',
+    loss: 'bg-loss/10 text-loss border-loss/20',
     warning: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
     info: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
   };

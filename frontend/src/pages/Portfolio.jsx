@@ -56,7 +56,7 @@ const Portfolio = () => {
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
         className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Portfolio</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">Portfolio</h1>
           <p className="text-sm text-surface-400">Your holdings & asset allocation</p>
         </div>
         <div className="flex gap-3">
@@ -73,11 +73,11 @@ const Portfolio = () => {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Total Invested</span>
-          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.totalInvestment?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
+          <p className="text-2xl font-bold text-surface-900 font-mono mt-1">${analytics?.totalInvestment?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Current Value</span>
-          <p className="text-2xl font-bold text-white font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
+          <p className="text-2xl font-bold text-surface-900 font-mono mt-1">${analytics?.currentValue?.toLocaleString(undefined, {minimumFractionDigits:2})}</p>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="card p-5">
           <span className="text-xs font-semibold uppercase tracking-wider text-surface-400">Net P/L</span>
@@ -92,12 +92,12 @@ const Portfolio = () => {
         {/* Holdings Table */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
           className="lg:col-span-2 card overflow-hidden">
-          <div className="px-5 py-4 border-b border-surface-800/60">
-            <h2 className="text-sm font-bold text-surface-200">Holdings ({holdings.length})</h2>
+          <div className="px-5 py-4 border-b border-surface-200/60">
+            <h2 className="text-sm font-bold text-surface-800">Holdings ({holdings.length})</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-surface-900/50 text-surface-400 border-b border-surface-800/40">
+              <thead className="bg-white/50 text-surface-400 border-b border-surface-200/40">
                 <tr>
                   <th className="px-5 py-3 text-xs font-semibold uppercase">Symbol</th>
                   <th className="px-5 py-3 text-xs font-semibold uppercase text-right">Qty</th>
@@ -107,15 +107,15 @@ const Portfolio = () => {
                   <th className="px-5 py-3 text-xs font-semibold uppercase text-center">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-800/40">
+              <tbody className="divide-y divide-surface-200/40">
                 {holdings.map(h => (
-                  <tr key={h._id} className="hover:bg-surface-800/20 transition-colors">
+                  <tr key={h._id} className="hover:bg-surface-100/20 transition-colors">
                     <td className="px-5 py-3.5">
-                      <Link to={`/market/${h.symbol}`} className="font-bold text-white hover:text-brand-400 font-mono">{h.symbol}</Link>
+                      <Link to={`/market/${h.symbol}`} className="font-bold text-surface-900 hover:text-brand-400 font-mono">{h.symbol}</Link>
                     </td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">{h.quantity.toLocaleString()}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-surface-300">${h.avgPrice.toFixed(2)}</td>
-                    <td className="px-5 py-3.5 text-right font-mono text-white font-semibold">${(h.quantity * h.avgPrice).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">{h.quantity.toLocaleString()}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-700">${h.avgPrice.toFixed(2)}</td>
+                    <td className="px-5 py-3.5 text-right font-mono text-surface-900 font-semibold">${(h.quantity * h.avgPrice).toLocaleString(undefined, {minimumFractionDigits:2})}</td>
                     <td className="px-5 py-3.5"><Badge variant="brand" size="xs">{h.sector}</Badge></td>
                     <td className="px-5 py-3.5 text-center">
                       <Link to={`/trade?symbol=${h.symbol}`} className="text-xs text-brand-400 hover:text-brand-300 font-semibold">Trade</Link>
@@ -130,7 +130,7 @@ const Portfolio = () => {
         {/* Charts */}
         <div className="space-y-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="card p-5">
-            <h2 className="text-sm font-bold text-surface-200 mb-4">Sector Breakdown</h2>
+            <h2 className="text-sm font-bold text-surface-800 mb-4">Sector Breakdown</h2>
             {analytics?.sectorData?.length > 0 ? (
               <ResponsiveContainer width="100%" height={200}>
                 <PieChart>
@@ -141,13 +141,13 @@ const Portfolio = () => {
                     formatter={(v) => [`$${v.toLocaleString()}`, 'Value']} />
                 </PieChart>
               </ResponsiveContainer>
-            ) : <div className="h-48 flex items-center justify-center text-sm text-surface-500">No data</div>}
+            ) : <div className="h-48 flex items-center justify-center text-sm text-surface-400">No data</div>}
             <div className="space-y-1.5 mt-2">
               {analytics?.sectorData?.map((s, i) => (
                 <div key={i} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                    <span className="text-surface-300">{s.name}</span>
+                    <span className="text-surface-700">{s.name}</span>
                   </div>
                   <span className="font-mono text-surface-400">${s.value.toLocaleString()}</span>
                 </div>
@@ -156,7 +156,7 @@ const Portfolio = () => {
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="card p-5">
-            <h2 className="text-sm font-bold text-surface-200 mb-4">Holdings by Value</h2>
+            <h2 className="text-sm font-bold text-surface-800 mb-4">Holdings by Value</h2>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={holdings.map(h => ({ name: h.symbol, value: h.quantity * h.avgPrice }))}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />

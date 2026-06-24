@@ -38,8 +38,8 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
             >
               <Dialog.Panel className={`w-full ${sizes[size]} glass rounded-2xl p-6 shadow-2xl transform transition-all`}>
                 <div className="flex items-center justify-between mb-5">
-                  <Dialog.Title className="text-lg font-bold text-white">{title}</Dialog.Title>
-                  <button onClick={onClose} className="w-8 h-8 rounded-lg bg-surface-800/50 flex items-center justify-center text-surface-400 hover:text-white hover:bg-surface-700/50 transition-colors cursor-pointer">
+                  <Dialog.Title className="text-lg font-bold text-surface-900">{title}</Dialog.Title>
+                  <button onClick={onClose} className="w-8 h-8 rounded-lg bg-surface-50/50 flex items-center justify-center text-surface-400 hover:text-surface-800 hover:bg-surface-700/50 transition-colors cursor-pointer">
                     <HiXMark className="w-4 h-4" />
                   </button>
                 </div>

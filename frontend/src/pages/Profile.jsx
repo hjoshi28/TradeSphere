@@ -44,7 +44,7 @@ const Profile = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">Profile</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-surface-900 mb-1">Profile</h1>
         <p className="text-sm text-surface-400">Manage your account information</p>
       </motion.div>
 
@@ -67,8 +67,8 @@ const Profile = () => {
             ) : (
               <>
                 <div className="flex items-center gap-3 justify-center sm:justify-start">
-                  <h2 className="text-2xl font-bold text-white">{user?.name || 'User'}</h2>
-                  <button onClick={() => setEditing(true)} className="w-7 h-7 rounded-lg hover:bg-surface-800/50 flex items-center justify-center text-surface-400 hover:text-white cursor-pointer">
+                  <h2 className="text-2xl font-bold text-surface-900">{user?.name || 'User'}</h2>
+                  <button onClick={() => setEditing(true)} className="w-7 h-7 rounded-lg hover:bg-surface-100/50 flex items-center justify-center text-surface-400 hover:text-surface-800 cursor-pointer">
                     <HiOutlinePencilSquare className="w-4 h-4" />
                   </button>
                 </div>
@@ -77,7 +77,7 @@ const Profile = () => {
             )}
             <div className="flex items-center gap-3 mt-3 justify-center sm:justify-start">
               <Badge variant="brand">Trader</Badge>
-              <span className="text-xs text-surface-500">Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'recently'}</span>
+              <span className="text-xs text-surface-400">Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'recently'}</span>
             </div>
           </div>
         </div>
@@ -85,14 +85,14 @@ const Profile = () => {
 
       {/* Trading Stats */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-        <h2 className="text-lg font-bold text-white mb-4">Trading Statistics</h2>
+        <h2 className="text-lg font-bold text-surface-900 mb-4">Trading Statistics</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="card p-5 text-center">
-            <span className="text-3xl font-bold text-white">{stats.trades}</span>
+            <span className="text-3xl font-bold text-surface-900">{stats.trades}</span>
             <p className="text-xs text-surface-400 mt-1">Total Trades</p>
           </div>
           <div className="card p-5 text-center">
-            <span className="text-3xl font-bold text-white">{stats.holdings}</span>
+            <span className="text-3xl font-bold text-surface-900">{stats.holdings}</span>
             <p className="text-xs text-surface-400 mt-1">Holdings</p>
           </div>
           <div className="card p-5 text-center">
@@ -109,19 +109,19 @@ const Profile = () => {
       {/* Account Info */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
         className="card p-6">
-        <h2 className="text-lg font-bold text-white mb-4">Account Information</h2>
+        <h2 className="text-lg font-bold text-surface-900 mb-4">Account Information</h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between py-3 border-b border-surface-800/40">
+          <div className="flex items-center justify-between py-3 border-b border-surface-200/40">
             <span className="text-sm text-surface-400">Cash Balance</span>
-            <span className="text-sm font-bold font-mono text-white">${(user?.balance || 100000).toLocaleString(undefined,{minimumFractionDigits:2})}</span>
+            <span className="text-sm font-bold font-mono text-surface-900">${(user?.balance || 100000).toLocaleString(undefined,{minimumFractionDigits:2})}</span>
           </div>
-          <div className="flex items-center justify-between py-3 border-b border-surface-800/40">
+          <div className="flex items-center justify-between py-3 border-b border-surface-200/40">
             <span className="text-sm text-surface-400">Account Type</span>
             <Badge variant="brand" size="sm">Simulator</Badge>
           </div>
           <div className="flex items-center justify-between py-3">
             <span className="text-sm text-surface-400">Starting Balance</span>
-            <span className="text-sm font-mono text-surface-300">$100,000.00</span>
+            <span className="text-sm font-mono text-surface-700">$100,000.00</span>
           </div>
         </div>
       </motion.div>

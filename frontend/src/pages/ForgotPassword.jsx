@@ -26,7 +26,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-950 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-surface-50 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] bg-brand-500/5 rounded-full blur-[120px]" />
       </div>
@@ -40,11 +40,11 @@ const ForgotPassword = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-6">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-500/25">
-              <span className="text-lg font-black text-white">T</span>
+              <span className="text-lg font-black text-surface-900">T</span>
             </div>
-            <span className="text-2xl font-bold text-white">TradeSphere</span>
+            <span className="text-2xl font-bold text-surface-900">TradeSphere</span>
           </Link>
-          <h1 className="text-2xl font-bold text-white mb-2">Reset your password</h1>
+          <h1 className="text-2xl font-bold text-surface-900 mb-2">Reset your password</h1>
           <p className="text-sm text-surface-400">Enter your email and we'll send reset instructions</p>
         </div>
 
@@ -54,7 +54,7 @@ const ForgotPassword = () => {
               <div className="w-16 h-16 rounded-full bg-gain/10 border border-gain/20 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl">✉️</span>
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">Check your email</h3>
+              <h3 className="text-lg font-bold text-surface-900 mb-2">Check your email</h3>
               <p className="text-sm text-surface-400 mb-6">
                 If an account with that email exists, we've sent password reset instructions.
               </p>
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
           )}
         </div>
 
-        <p className="text-center text-sm text-surface-500 mt-6">
+        <p className="text-center text-sm text-surface-400 mt-6">
           <Link to="/login" className="text-brand-400 hover:text-brand-300 font-semibold">← Back to Sign In</Link>
         </p>
       </motion.div>
