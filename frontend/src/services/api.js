@@ -1,7 +1,11 @@
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
-const API = axios.create({ baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api' });
+let baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+if (import.meta.env.VITE_API_URL && !import.meta.env.VITE_API_URL.endsWith('/api')) {
+  baseURL = import.meta.env.VITE_API_URL.replace(/\/$/, '') + '/api';
+}
+const API = axios.create({ baseURL });
 
 API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token') || sessionStorage.getItem('token');
