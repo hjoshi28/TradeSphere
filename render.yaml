@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: tradesphere-backend
+    plan: free
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20"
+      - key: PORT
+        value: 5001
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FINNHUB_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
