@@ -22,7 +22,7 @@ const PortfolioChart = ({ data }) => {
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip contentStyle={{ backgroundColor: '#1e293b', borderColor: '#475569', color: '#fff' }} />
+          <Tooltip contentStyle={{ backgroundColor: '#1e293b', borderColor: '#475569', color: '#fff' }} itemStyle={{ color: '#fff' }} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>

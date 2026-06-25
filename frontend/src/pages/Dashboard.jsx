@@ -173,6 +173,7 @@ const Dashboard = () => {
                 </Pie>
                 <Tooltip
                   contentStyle={{ backgroundColor: '#1e293b', borderColor: '#334155', borderRadius: '12px', fontSize: '12px', color: '#fff' }}
+                  itemStyle={{ color: '#fff' }}
                   formatter={(value) => [`$${value.toLocaleString()}`, 'Value']}
                 />
               </PieChart>

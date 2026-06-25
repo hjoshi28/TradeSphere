@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
       isActive
         ? 'bg-brand-500/10 text-brand-400 border border-brand-500/20'
-        : 'text-surface-400 hover:text-surface-200 hover:bg-surface-100/50 border border-transparent'
+        : 'text-surface-400 hover:bg-surface-100/50 hover:translate-x-1 border border-transparent'
     }`;
 
   const SidebarContent = () => (

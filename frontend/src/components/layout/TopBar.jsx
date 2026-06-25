@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HiBars3, HiMagnifyingGlass, HiBell } from 'react-icons/hi2';
+import { HiBars3, HiMagnifyingGlass } from 'react-icons/hi2';
 import { useAuth } from '../../context/AuthContext';
 import { searchStock } from '../../services/api';
 
@@ -77,12 +77,7 @@ const TopBar = ({ onMenuToggle }) => {
 
         {/* Right */}
         <div className="flex items-center gap-3">
-          <button className="relative w-9 h-9 rounded-xl bg-surface-50/50 flex items-center justify-center text-surface-400 hover:text-surface-800 transition-colors cursor-pointer">
-            <HiBell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-500 rounded-full" />
-          </button>
-
-          <div className="hidden sm:flex items-center gap-2.5 pl-3 border-l border-surface-200/40">
+          <div className="hidden sm:flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white text-xs font-bold">
               {(user?.name || 'U')[0].toUpperCase()}
             </div>
